@@ -1,0 +1,37 @@
+{
+  "name": "@kirby-tools/licensing",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.3.0",
+  "description": "Shared tooling for licensing in the Panel",
+  "author": "Johann Schopplich <hello@johannschopplich.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/kirby-tools/licensing#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirby-tools/licensing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kirby-tools/licensing/issues"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "release": "bumpp"
+  },
+  "dependencies": {
+    "kirbyuse": "^0.4.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.21.1",
+    "bumpp": "^9.4.1",
+    "eslint": "^9.5.0"
+  }
+}

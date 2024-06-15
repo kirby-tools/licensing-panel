@@ -16,12 +16,17 @@
   },
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.mjs"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
   },
+  "types": "./dist/index.d.ts",
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
+    "build": "unbuild",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "bumpp"
@@ -32,6 +37,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.21.1",
     "bumpp": "^9.4.1",
-    "eslint": "^9.5.0"
+    "eslint": "^9.5.0",
+    "typescript": "^5.4.5",
+    "unbuild": "3.0.0-rc.2"
   }
 }

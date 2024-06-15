@@ -1,4 +1,7 @@
-export const TRANSLATIONS = {
+export type MessageValue = string
+export type MessageDictionary = Record<string, MessageValue>
+
+export const TRANSLATIONS: Record<string, MessageDictionary> = {
   en: {
     'modal.info': 'Thanks for purchasing {plugin}! Please enter your email address and order ID to activate your license.',
     'modal.help.orderId': '<a href="https://app.lemonsqueezy.com/my-orders" target="_blank">Get your order number</a> from Lemon Squeezy or <a href="mailto:hello@kirby.tools">contact us</a> if you cannot find it.',

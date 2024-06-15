@@ -1,21 +1,20 @@
 import { useApi, usePanel } from 'kirbyuse'
-import { t } from './utils.mjs'
+import { t } from './utils'
 
-/**
- * @param {object} options
- * @param {string} options.label
- * @param {string} options.apiNamespace
- * @returns {object}
- */
+export interface LicenseOptions {
+  label: string
+  apiNamespace: string
+}
+
 export function useLicense({
   label,
   apiNamespace,
-}) {
+}: LicenseOptions) {
   const panel = usePanel()
   const api = useApi()
   const isLocalhost = _isLocalhost()
 
-  const register = async (email, orderId) => {
+  const register = async (email?: string, orderId?: number) => {
     if (!email || !orderId) {
       throw new Error('Email and order ID are required')
     }
@@ -54,7 +53,7 @@ export function useLicense({
         },
       },
       on: {
-        submit: async (event) => {
+        submit: async (event: Record<string, any>) => {
           const { email, orderId } = event
           if (!email || !orderId) {
             panel.notification.error('Email and order ID are required')
@@ -65,7 +64,7 @@ export function useLicense({
             await register(email, Number(orderId))
           }
           catch (error) {
-            panel.notification.error(error.message)
+            panel.notification.error((error as Error).message)
             return
           }
 

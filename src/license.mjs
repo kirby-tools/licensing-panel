@@ -1,7 +1,14 @@
 import { useApi, usePanel } from 'kirbyuse'
-import { t } from './utils'
+import { t } from './utils.mjs'
 
+/**
+ * @param {object} options
+ * @param {string} options.label
+ * @param {string} options.apiNamespace
+ * @returns {object}
+ */
 export function useLicense({
+  label,
   apiNamespace,
 }) {
   const panel = usePanel()
@@ -28,14 +35,12 @@ export function useLicense({
         submitButton: {
           icon: 'check',
           theme: 'love',
-          text: t('activate'),
+          text: t('activate', { plugin: label }),
         },
         fields: {
           info: {
             type: 'info',
-            text: t(
-              'modal.info',
-            ),
+            text: t('modal.info', { plugin: label }),
           },
           email: {
             label: panel.t('email'),
@@ -44,9 +49,7 @@ export function useLicense({
           orderId: {
             label: 'Order ID',
             type: 'text',
-            help: t(
-              'modal.help.orderId',
-            ),
+            help: t('modal.help.orderId', { plugin: label }),
           },
         },
       },
@@ -68,9 +71,7 @@ export function useLicense({
 
           panel.dialog.close()
           await panel.view.reload()
-          panel.notification.success(
-            t('activated'),
-          )
+          panel.notification.success(t('activated'), { plugin: label })
         },
       },
     })

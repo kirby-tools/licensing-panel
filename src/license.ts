@@ -34,12 +34,12 @@ export function useLicense({
         submitButton: {
           icon: 'check',
           theme: 'love',
-          text: t('activate', { plugin: label }),
+          text: t('activate', { label }),
         },
         fields: {
           info: {
             type: 'info',
-            text: t('modal.info', { plugin: label }),
+            text: t('modal.info', { label }),
           },
           email: {
             label: panel.t('email'),
@@ -48,7 +48,7 @@ export function useLicense({
           orderId: {
             label: 'Order ID',
             type: 'text',
-            help: t('modal.help.orderId', { plugin: label }),
+            help: t('modal.help.orderId', { label }),
           },
         },
       },
@@ -70,7 +70,7 @@ export function useLicense({
 
           panel.dialog.close()
           await panel.view.reload()
-          panel.notification.success(t('activated'), { plugin: label })
+          panel.notification.success(t('activated'), { label })
         },
       },
     })

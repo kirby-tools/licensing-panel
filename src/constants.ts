@@ -9,7 +9,7 @@ export const TRANSLATIONS: Record<string, MessageDictionary> = {
     'activated': 'Plugin activated',
   },
   de: {
-    'modal.info': 'Dankeschön für den Kauf vom {label}! Bitte gib deine E-Mail-Adresse und Bestellnummer ein, um deine Lizenz zu aktivieren.',
+    'modal.info': 'Dankeschön für den Kauf von {label}! Bitte gib deine E-Mail-Adresse und Bestellnummer ein, um deine Lizenz zu aktivieren.',
     'modal.help.orderId': 'Rufe die <a href="https://app.lemonsqueezy.com/my-orders" target="_blank">Bestellnummer von Lemon Squeezy ab</a> oder <a href="mailto:hello@kirby.tools">kontaktiere uns</a>, wenn du sie nicht finden kannst.',
     'activate': 'Aktivieren',
     'activated': 'Plugin aktiviert',

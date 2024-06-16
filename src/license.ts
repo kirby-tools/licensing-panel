@@ -1,6 +1,9 @@
 import { useApi, usePanel } from 'kirbyuse'
 import { t } from './utils'
 
+const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
+const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
+
 export interface LicenseOptions {
   label: string
   apiNamespace: string
@@ -12,7 +15,7 @@ export function useLicense({
 }: LicenseOptions) {
   const panel = usePanel()
   const api = useApi()
-  const isLocalhost = _isLocalhost()
+  const isLocalhost = isLocal()
 
   const register = async (email?: string, orderId?: number) => {
     if (!email || !orderId) {
@@ -82,10 +85,10 @@ export function useLicense({
   }
 }
 
-function _isLocalhost() {
+function isLocal() {
   const { hostname } = window.location
-  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(hostname)
-  const isTestDomain = hostname.endsWith('.test')
+  const isLocalhost = LOCALHOST_HOSTNAMES.includes(hostname)
+  const isLocalDomain = LOCAL_DOMAINS.some(domain => hostname.endsWith(`.${domain}`))
 
-  return isLocalhost || isTestDomain
+  return isLocalhost || isLocalDomain
 }

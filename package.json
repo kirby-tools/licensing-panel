@@ -6,13 +6,13 @@
   "description": "Shared tooling for licensing in the Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "MIT",
-  "homepage": "https://github.com/kirby-tools/licensing#readme",
+  "homepage": "https://github.com/kirby-tools/licensing-panel#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kirby-tools/licensing.git"
+    "url": "git+https://github.com/kirby-tools/licensing-panel.git"
   },
   "bugs": {
-    "url": "https://github.com/kirby-tools/licensing/issues"
+    "url": "https://github.com/kirby-tools/licensing-panel/issues"
   },
   "sideEffects": false,
   "exports": {

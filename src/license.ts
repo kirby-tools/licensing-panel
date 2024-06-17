@@ -35,7 +35,7 @@ export function useLicense({
   }
 
   const openLicenseModal = () => {
-    const isRegistered = false
+    let isRegistered = false
 
     return new Promise<LicenseModalResult>((resolve) => {
       panel.dialog.open({
@@ -82,6 +82,7 @@ export function useLicense({
               return
             }
 
+            isRegistered = true
             panel.dialog.close()
             panel.notification.success(t('activated'), { label })
           },

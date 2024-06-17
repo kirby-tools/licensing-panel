@@ -10,7 +10,7 @@ export interface LicenseOptions {
 }
 
 export interface LicenseModalResult {
-  isRegistered?: boolean
+  isRegistered: boolean
 }
 
 export function useLicense({
@@ -35,6 +35,8 @@ export function useLicense({
   }
 
   const openLicenseModal = () => {
+    const isRegistered = false
+
     return new Promise<LicenseModalResult>((resolve) => {
       panel.dialog.open({
         component: 'k-form-dialog',
@@ -61,8 +63,9 @@ export function useLicense({
           },
         },
         on: {
+          // Close event will always be triggered, even on submit
           close: () => {
-            resolve({})
+            resolve({ isRegistered })
           },
           submit: async (event: Record<string, any>) => {
             const { email, orderId } = event
@@ -81,7 +84,6 @@ export function useLicense({
 
             panel.dialog.close()
             panel.notification.success(t('activated'), { label })
-            resolve({ isRegistered: true })
           },
         },
       })

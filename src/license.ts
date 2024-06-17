@@ -23,7 +23,7 @@ export function useLicense({
     }
 
     const response = await api.post(`${apiNamespace}/register`, { email, orderId })
-    if (!response?.ok) {
+    if (response?.status !== 'ok') {
       throw new Error('Registration failed')
     }
 

@@ -9,6 +9,10 @@ export interface LicenseOptions {
   apiNamespace: string
 }
 
+export interface LicenseModalResult {
+  isRegistered?: boolean
+}
+
 export function useLicense({
   label,
   apiNamespace,
@@ -31,51 +35,58 @@ export function useLicense({
   }
 
   const openLicenseModal = () => {
-    panel.dialog.open({
-      component: 'k-form-dialog',
-      props: {
-        submitButton: {
-          icon: 'check',
-          theme: 'love',
-          text: t('activate', { label }),
+    return new Promise<LicenseModalResult>((resolve) => {
+      panel.dialog.open({
+        component: 'k-form-dialog',
+        props: {
+          submitButton: {
+            icon: 'check',
+            theme: 'love',
+            text: t('activate', { label }),
+          },
+          fields: {
+            info: {
+              type: 'info',
+              text: t('modal.info', { label }),
+            },
+            email: {
+              label: panel.t('email'),
+              type: 'email',
+            },
+            orderId: {
+              label: 'Order ID',
+              type: 'text',
+              help: t('modal.help.orderId', { label }),
+            },
+          },
         },
-        fields: {
-          info: {
-            type: 'info',
-            text: t('modal.info', { label }),
+        on: {
+          close: () => {
+            resolve({})
           },
-          email: {
-            label: panel.t('email'),
-            type: 'email',
-          },
-          orderId: {
-            label: 'Order ID',
-            type: 'text',
-            help: t('modal.help.orderId', { label }),
-          },
-        },
-      },
-      on: {
-        submit: async (event: Record<string, any>) => {
-          const { email, orderId } = event
-          if (!email || !orderId) {
-            panel.notification.error('Email and order ID are required')
-            return
-          }
+          submit: async (event: Record<string, any>) => {
+            const { email, orderId } = event
+            if (!email || !orderId) {
+              panel.notification.error('Email and order ID are required')
+              resolve({})
+              return
+            }
 
-          try {
-            await register(email, Number(orderId))
-          }
-          catch (error) {
-            panel.notification.error((error as Error).message)
-            return
-          }
+            try {
+              await register(email, Number(orderId))
+            }
+            catch (error) {
+              panel.notification.error((error as Error).message)
+              resolve({})
+              return
+            }
 
-          panel.dialog.close()
-          await panel.view.reload()
-          panel.notification.success(t('activated'), { label })
+            panel.dialog.close()
+            panel.notification.success(t('activated'), { label })
+            resolve({ isRegistered: true })
+          },
         },
-      },
+      })
     })
   }
 

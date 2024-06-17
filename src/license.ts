@@ -68,7 +68,6 @@ export function useLicense({
             const { email, orderId } = event
             if (!email || !orderId) {
               panel.notification.error('Email and order ID are required')
-              resolve({})
               return
             }
 
@@ -77,7 +76,6 @@ export function useLicense({
             }
             catch (error) {
               panel.notification.error((error as Error).message)
-              resolve({})
               return
             }
 

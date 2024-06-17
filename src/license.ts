@@ -58,7 +58,7 @@ export function useLicense({
             orderId: {
               label: 'Order ID',
               type: 'text',
-              help: t('modal.help.orderId', { label }),
+              help: t('modal.fields.orderId.help', { label }),
             },
           },
         },
@@ -70,7 +70,7 @@ export function useLicense({
           submit: async (event: Record<string, any>) => {
             const { email, orderId } = event
             if (!email || !orderId) {
-              panel.notification.error('Email and order ID are required')
+              panel.notification.error(t('modal.error.required.fields'))
               return
             }
 
@@ -78,7 +78,11 @@ export function useLicense({
               await register(email, Number(orderId))
             }
             catch (error) {
-              panel.notification.error((error as Error).message)
+              let message = (error as Error).message
+              if (message === 'License key not valid for this plugin') {
+                message = t('modal.error.invalid.licenseKey')!
+              }
+              panel.notification.error(message)
               return
             }
 

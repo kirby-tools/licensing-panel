@@ -82,6 +82,9 @@ export function useLicense({
               if (message === 'License key not valid for this plugin') {
                 message = t('modal.error.invalid.licenseKey')!
               }
+              else if (message === 'License key already registered') {
+                message = t('modal.error.registered')!
+              }
               panel.notification.error(message)
               return
             }

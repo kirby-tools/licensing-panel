@@ -1,4 +1,5 @@
-import { useApi, usePanel } from 'kirbyuse'
+import { nextTick, useApi, usePanel } from 'kirbyuse'
+import type { Ref } from 'vue'
 import { t } from './utils'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
@@ -98,8 +99,27 @@ export function useLicense({
     })
   }
 
+  const assertActivationIntegrity = async ({ templateRef, license }: {
+    templateRef: Ref<HTMLElement | null | undefined>
+    license: boolean | string
+  }) => {
+    if (license !== false) {
+      return true
+    }
+
+    await nextTick()
+
+    if (!templateRef.value) {
+      panel.notification.error('No license key found, but licensing action buttons are missing')
+      return false
+    }
+
+    return true
+  }
+
   return {
     isLocalhost,
+    assertActivationIntegrity,
     openLicenseModal,
   }
 }

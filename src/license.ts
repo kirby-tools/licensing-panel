@@ -5,7 +5,10 @@ import { t } from './utils'
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
 
+export type LicenseKey = string
+
 export interface License {
+  licenseKey: LicenseKey
   [key: string]: string
 }
 

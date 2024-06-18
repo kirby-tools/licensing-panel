@@ -1,9 +1,13 @@
 import { nextTick, useApi, usePanel } from 'kirbyuse'
-import type { Ref } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import { t } from './utils'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
+
+export interface License {
+  [key: string]: string
+}
 
 export interface LicenseOptions {
   label: string
@@ -100,8 +104,8 @@ export function useLicense({
   }
 
   const assertActivationIntegrity = async ({ templateRef, license }: {
-    templateRef: Ref<HTMLElement | null | undefined>
-    license: boolean | string
+    templateRef: Ref<ComponentPublicInstance | null | undefined>
+    license: boolean | string | License
   }) => {
     if (license !== false) {
       return true
@@ -110,7 +114,7 @@ export function useLicense({
     await nextTick()
 
     if (!templateRef.value) {
-      panel.notification.error('No license key found, but licensing action buttons are missing')
+      panel.notification.error('Are you trying to hide the activation buttons? Please buy a license.')
       return false
     }
 

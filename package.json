@@ -5,7 +5,7 @@
   "packageManager": "pnpm@9.3.0",
   "description": "Shared tooling for licensing in the Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "homepage": "https://github.com/kirby-tools/licensing-panel#readme",
   "repository": {
     "type": "git",

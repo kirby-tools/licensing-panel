@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       kirbyuse:
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.7.0
+        version: 0.7.0
       vue:
         specifier: ^2.7.16
         version: 2.7.16
@@ -1627,8 +1627,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  kirbyuse@0.4.1:
-    resolution: {integrity: sha512-txy4GkhXsEsfAGunrw/MXe48kD2Dntm7hlkM+VoiQrzlsFx0gGVLiNbRgw3YcPlyK/APAGlf2xINSMUokRXAEQ==}
+  kirbyuse@0.7.0:
+    resolution: {integrity: sha512-kSD/EKWBhb4qb2uOV7p1CtShyv5LQLvvwfKEsCBV5ZvQGLUJ7EBcZfFhjyYB2QG8os/bJgP3LWL1cA9QcjHvng==}
 
   kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
@@ -4111,7 +4111,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  kirbyuse@0.4.1:
+  kirbyuse@0.7.0:
     dependencies:
       vue: 2.7.16
 

@@ -1,16 +1,10 @@
 import { nextTick, useApi, usePanel } from 'kirbyuse'
 import type { ComponentPublicInstance, Ref } from 'vue'
 import { t } from './utils'
+import type { License } from './types'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
-
-export type LicenseKey = string
-
-export interface License {
-  licenseKey: LicenseKey
-  [key: string]: string
-}
 
 export interface LicenseOptions {
   label: string
@@ -99,7 +93,7 @@ export function useLicense({
 
             isRegistered = true
             panel.dialog.close()
-            panel.notification.success(t('activated'), { label })
+            panel.notification.success(t('activated'))
           },
         },
       })
@@ -111,17 +105,19 @@ export function useLicense({
     license: boolean | string | License
   }) => {
     if (license !== false) {
-      return true
+      return
     }
 
     await nextTick()
 
-    if (!templateRef.value) {
-      panel.notification.error('Are you trying to hide the activation buttons? Please buy a license.')
-      return false
+    if (
+      !templateRef.value?.$el
+      || window.getComputedStyle(templateRef.value.$el).display === 'none'
+    ) {
+      const message = 'Are you trying to hide the activation buttons? Please buy a license.'
+      panel.notification.error(message)
+      throw new Error(message)
     }
-
-    return true
   }
 
   return {

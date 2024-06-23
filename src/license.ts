@@ -1,7 +1,7 @@
-import { nextTick, useApi, usePanel } from 'kirbyuse'
+import { nextTick, unref, useApi, usePanel } from 'kirbyuse'
 import type { ComponentPublicInstance, Ref } from 'vue'
 import { t } from './utils'
-import type { License } from './types'
+import type { License, MaybeRef } from './types'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
@@ -102,9 +102,11 @@ export function useLicense({
 
   const assertActivationIntegrity = async ({ templateRef, license }: {
     templateRef: Ref<ComponentPublicInstance | null | undefined>
-    license: boolean | string | License
+    license: MaybeRef<boolean | string | License>
   }) => {
-    if (license !== false) {
+    const _license = unref(license)
+
+    if (_license !== false) {
       return
     }
 
@@ -113,9 +115,9 @@ export function useLicense({
     if (
       !templateRef.value?.$el
       || window.getComputedStyle(templateRef.value.$el).display === 'none'
+      || window.getComputedStyle(templateRef.value.$el).visibility === 'hidden'
     ) {
       const message = 'Are you trying to hide the activation buttons? Please buy a license.'
-      panel.notification.error(message)
       throw new Error(message)
     }
   }

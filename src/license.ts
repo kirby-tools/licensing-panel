@@ -1,5 +1,5 @@
 import { nextTick, unref, useApi, usePanel } from 'kirbyuse'
-import type { ComponentPublicInstance, Ref } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { t } from './utils'
 import type { License, MaybeRef } from './types'
 

@@ -100,10 +100,11 @@ export function useLicense({
     })
   }
 
-  const assertActivationIntegrity = async ({ templateRef, license }: {
-    templateRef: Ref<ComponentPublicInstance | null | undefined>
+  const assertActivationIntegrity = async ({ component, license }: {
+    component: MaybeRef<ComponentPublicInstance | null | undefined>
     license: MaybeRef<boolean | string | License>
   }) => {
+    const _component = unref(component)
     const _license = unref(license)
 
     if (_license !== false) {
@@ -113,12 +114,11 @@ export function useLicense({
     await nextTick()
 
     if (
-      !templateRef.value?.$el
-      || window.getComputedStyle(templateRef.value.$el).display === 'none'
-      || window.getComputedStyle(templateRef.value.$el).visibility === 'hidden'
+      !_component?.$el
+      || window.getComputedStyle(_component.$el).display === 'none'
+      || window.getComputedStyle(_component.$el).visibility === 'hidden'
     ) {
-      const message = 'Are you trying to hide the activation buttons? Please buy a license.'
-      throw new Error(message)
+      throw new Error('Are you trying to hide the activation buttons? Please buy a license.')
     }
   }
 

@@ -81,7 +81,10 @@ export function useLicense({
             }
             catch (error) {
               let message = (error as Error).message
-              if (message === 'License key not valid for this plugin') {
+              if (message === 'Unauthorized') {
+                message = t('modal.error.invalid.unauthorized')!
+              }
+              else if (message === 'License key not valid for this plugin') {
                 message = t('modal.error.invalid.licenseKey')!
               }
               else if (message === 'License key not valid for this plugin version') {

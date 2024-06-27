@@ -1,7 +1,7 @@
 import { nextTick, unref, useApi, usePanel } from 'kirbyuse'
 import type { ComponentPublicInstance } from 'vue'
 import { t } from './utils'
-import type { License, MaybeRef } from './types'
+import type { LicenseStatus, MaybeRef } from './types'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
@@ -84,6 +84,9 @@ export function useLicense({
               if (message === 'License key not valid for this plugin') {
                 message = t('modal.error.invalid.licenseKey')!
               }
+              else if (message === 'License key not valid for this plugin version') {
+                message = t('modal.error.incompatible.licenseKey')!
+              }
               else if (message === 'License key already registered') {
                 message = t('modal.error.registered')!
               }
@@ -100,23 +103,22 @@ export function useLicense({
     })
   }
 
-  const assertActivationIntegrity = async ({ component, license }: {
+  const assertActivationIntegrity = async ({ component, licenseStatus }: {
     component: MaybeRef<ComponentPublicInstance | null | undefined>
-    license: MaybeRef<boolean | string | License>
+    licenseStatus: MaybeRef<LicenseStatus>
   }) => {
-    const _component = unref(component)
-    const _license = unref(license)
-
-    if (_license !== false) {
+    if (unref(licenseStatus) === 'active') {
       return
     }
 
     await nextTick()
+    const _component = unref(component)
 
     if (
       !_component?.$el
       || window.getComputedStyle(_component.$el).display === 'none'
       || window.getComputedStyle(_component.$el).visibility === 'hidden'
+      || window.getComputedStyle(_component.$el).opacity === '0'
     ) {
       throw new Error('Are you trying to hide the activation buttons? Please buy a license.')
     }

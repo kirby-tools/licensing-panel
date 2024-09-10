@@ -1,2 +1,2 @@
 export { useLicense } from './license'
-export type { LicenseKey, License } from './types'
+export type { License, LicenseKey } from './types'

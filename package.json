@@ -2,7 +2,7 @@
   "name": "@kirby-tools/licensing",
   "type": "module",
   "version": "0.3.1",
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.10.0",
   "description": "Shared tooling for licensing in the Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "AGPL-3.0-or-later",
@@ -32,14 +32,14 @@
     "release": "bumpp"
   },
   "dependencies": {
-    "kirbyuse": "^0.7.0",
+    "kirbyuse": "^0.7.1",
     "vue": "^2.7.16"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.1",
-    "bumpp": "^9.4.1",
-    "eslint": "^9.5.0",
-    "typescript": "^5.4.5",
-    "unbuild": "3.0.0-rc.2"
+    "@antfu/eslint-config": "^3.5.1",
+    "bumpp": "^9.5.2",
+    "eslint": "^9.10.0",
+    "typescript": "^5.5.4",
+    "unbuild": "^3.0.0-rc.7"
   }
 }

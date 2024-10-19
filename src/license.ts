@@ -1,7 +1,7 @@
-import { nextTick, unref, useApi, usePanel } from 'kirbyuse'
 import type { ComponentPublicInstance } from 'vue'
-import { t } from './utils'
 import type { LicenseStatus, MaybeRef } from './types'
+import { nextTick, unref, useApi, usePanel } from 'kirbyuse'
+import { t } from './utils'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']

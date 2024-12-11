@@ -123,9 +123,10 @@ async function registerLicense(event: Record<string, any>, {
     return true
   }
   catch (error) {
-    let message = (error as Error).message
-    message = ERROR_MESSAGE_TRANSLATIONS[message] || message
-    panel.notification.error(message)
+    const message = (error as Error).message
+    panel.notification.error(ERROR_MESSAGE_TRANSLATIONS[message]
+      ? t(ERROR_MESSAGE_TRANSLATIONS[message])
+      : message)
     return false
   }
 }

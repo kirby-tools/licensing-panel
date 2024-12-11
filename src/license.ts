@@ -5,6 +5,12 @@ import { t } from './utils'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
+const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
+  'Unauthorized': 'modal.error.invalid.unauthorized',
+  'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
+  'License key not valid for this plugin version': 'modal.error.incompatible.licenseKey',
+  'License key already registered': 'modal.error.registered',
+}
 
 export interface LicenseOptions {
   label: string
@@ -15,29 +21,15 @@ export interface LicenseModalResult {
   isRegistered: boolean
 }
 
-export function useLicense({
-  label,
-  apiNamespace,
-}: LicenseOptions) {
+export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
-  const api = useApi()
   const isLocalhost = isLocal()
-
-  const register = async (email?: string, orderId?: number) => {
-    if (!email || !orderId) {
-      throw new Error('Email and Order ID are required')
-    }
-
-    const response = await api.post(`${apiNamespace}/register`, { email, orderId })
-    if (response?.status !== 'ok') {
-      throw new Error('Failed to register license')
-    }
-  }
 
   const openLicenseModal = () => {
     let isRegistered = false
 
     return new Promise<LicenseModalResult>((resolve) => {
+      const { label } = licenseOptions
       panel.dialog.open({
         component: 'k-form-dialog',
         props: {
@@ -68,33 +60,10 @@ export function useLicense({
             resolve({ isRegistered })
           },
           submit: async (event: Record<string, any>) => {
-            const { email, orderId } = event
-            if (!email || !orderId) {
-              panel.notification.error(t('modal.error.required.fields'))
-              return
-            }
-
-            try {
-              await register(email, Number(orderId))
-              isRegistered = true
+            isRegistered = await registerLicense(event, licenseOptions)
+            if (isRegistered) {
               panel.dialog.close()
               panel.notification.success(t('activated'))
-            }
-            catch (error) {
-              let message = (error as Error).message
-              if (message === 'Unauthorized') {
-                message = t('modal.error.invalid.unauthorized')!
-              }
-              else if (message === 'License key not valid for this plugin') {
-                message = t('modal.error.invalid.licenseKey')!
-              }
-              else if (message === 'License key not valid for this plugin version') {
-                message = t('modal.error.incompatible.licenseKey')!
-              }
-              else if (message === 'License key already registered') {
-                message = t('modal.error.registered')!
-              }
-              panel.notification.error(message)
             }
           },
         },
@@ -127,6 +96,37 @@ export function useLicense({
     isLocalhost,
     assertActivationIntegrity,
     openLicenseModal,
+  }
+}
+
+async function registerLicense(event: Record<string, any>, {
+  apiNamespace,
+}: LicenseOptions) {
+  const panel = usePanel()
+  const { email, orderId } = event
+
+  if (!email || !orderId) {
+    panel.notification.error(t('modal.error.required.fields'))
+    return false
+  }
+
+  try {
+    const response = await panel.api.post(`${apiNamespace}/register`, {
+      email,
+      orderId: Number(orderId),
+    })
+
+    if (response?.status !== 'ok') {
+      throw new Error('Failed to register license')
+    }
+
+    return true
+  }
+  catch (error) {
+    let message = (error as Error).message
+    message = ERROR_MESSAGE_TRANSLATIONS[message] || message
+    panel.notification.error(message)
+    return false
   }
 }
 

@@ -25,15 +25,13 @@ export function useLicense({
 
   const register = async (email?: string, orderId?: number) => {
     if (!email || !orderId) {
-      throw new Error('Email and order ID are required')
+      throw new Error('Email and Order ID are required')
     }
 
     const response = await api.post(`${apiNamespace}/register`, { email, orderId })
     if (response?.status !== 'ok') {
-      throw new Error('Registration failed')
+      throw new Error('Failed to register license')
     }
-
-    return true
   }
 
   const openLicenseModal = () => {
@@ -78,6 +76,9 @@ export function useLicense({
 
             try {
               await register(email, Number(orderId))
+              isRegistered = true
+              panel.dialog.close()
+              panel.notification.success(t('activated'))
             }
             catch (error) {
               let message = (error as Error).message
@@ -94,12 +95,7 @@ export function useLicense({
                 message = t('modal.error.registered')!
               }
               panel.notification.error(message)
-              return
             }
-
-            isRegistered = true
-            panel.dialog.close()
-            panel.notification.success(t('activated'))
           },
         },
       })

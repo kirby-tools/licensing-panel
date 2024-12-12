@@ -8,8 +8,8 @@ const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
 const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'Unauthorized': 'modal.error.invalid.unauthorized',
   'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
-  'License key not valid for this plugin version': 'modal.error.incompatible.licenseKey',
-  'License key not valid for this plugin version, please upgrade your license': 'modal.error.upgradeable.licenseKey',
+  'License key not valid for this plugin version': 'modal.error.incompatible',
+  'License key not valid for this plugin version, please upgrade your license': 'modal.error.upgradeable',
   'License key already registered': 'modal.error.registered',
 }
 

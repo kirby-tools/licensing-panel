@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      kirbyuse:
-        specifier: ^0.8.8
-        version: 0.8.8
       vue:
         specifier: ^2.7.16
         version: 2.7.16
@@ -24,6 +21,9 @@ importers:
       eslint:
         specifier: ^9.16.0
         version: 9.16.0(jiti@2.4.1)
+      kirbyuse:
+        specifier: ^0.9.1
+        version: 0.9.1
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
@@ -1416,8 +1416,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  kirbyuse@0.8.8:
-    resolution: {integrity: sha512-soHaYetKI7PwmYn/DRtcQHb2YrMB8DnMUNDsT2S4vrTISVqrMuTtLFsbk2FqdglRNFMOtsZ8V4iFSN+4JzOLmQ==}
+  kirbyuse@0.9.1:
+    resolution: {integrity: sha512-yE9y4vTELiJjuPAG84BJ3lSQB5pBxeDhsaFrieE8ZEYNBroXCaTfzmUro5fIV/xI5e2u6ISwegw8ZhsjNpe4ug==}
 
   kleur@3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
@@ -3747,7 +3747,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  kirbyuse@0.8.8:
+  kirbyuse@0.9.1:
     dependencies:
       vue: 2.7.16
 

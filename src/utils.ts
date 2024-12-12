@@ -1,9 +1,7 @@
-import { usePanel } from 'kirbyuse'
 import { TRANSLATIONS } from './constants'
 
 export function t(key = '', data?: Record<string, string>) {
-  const panel = usePanel()
-  const languageCode = panel.translation.code
+  const languageCode = window.panel.translation.code
   const translation = TRANSLATIONS?.[languageCode]?.[key] ?? key
 
   return data ? template(translation, data) : translation

@@ -14,6 +14,8 @@ export const TRANSLATIONS: Record<Locale, Messages> = {
     'modal.error.registered': 'License key already registered',
     'activate': 'Activate',
     'activated': 'Plugin activated',
+    'buy': 'Buy a license',
+    'upgrade': 'Upgrade',
   },
   de: {
     'modal.info': 'Dankeschön für den Kauf von {label}! Bitte gib deine E-Mail-Adresse und Bestellnummer ein, um deine Lizenz zu aktivieren.',
@@ -26,6 +28,8 @@ export const TRANSLATIONS: Record<Locale, Messages> = {
     'modal.error.registered': 'Lizenzschlüssel bereits registriert',
     'activate': 'Aktivieren',
     'activated': 'Plugin aktiviert',
+    'buy': 'Lizenz kaufen',
+    'upgrade': 'Upgrade',
   },
   fr: {
     'modal.info': 'Merci d\'avoir acheté {label} ! Veuillez saisir votre adresse e-mail et votre numéro de commande pour activer votre licence.',
@@ -38,6 +42,8 @@ export const TRANSLATIONS: Record<Locale, Messages> = {
     'modal.error.registered': 'Clé de licence déjà enregistrée',
     'activate': 'Activer',
     'activated': 'Plugin activé',
+    'buy': 'Acheter une licence',
+    'upgrade': 'Upgrade',
   },
   nl: {
     'modal.info': 'Bedankt voor het kopen van {label}! Voer je e-mailadres en bestelnummer in om je licentie te activeren.',
@@ -50,5 +56,7 @@ export const TRANSLATIONS: Record<Locale, Messages> = {
     'modal.error.registered': 'Licentiesleutel al geregistreerd',
     'activate': 'Activeren',
     'activated': 'Plugin geactiveerd',
+    'buy': 'Koop een licentie',
+    'upgrade': 'Upgrade',
   },
 }

@@ -1,6 +1,6 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
-import { nextTick, unref, usePanel } from 'kirbyuse'
+import { unref, usePanel } from 'kirbyuse'
 import { t } from './utils'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
@@ -82,7 +82,6 @@ export function useLicense(licenseOptions: LicenseOptions) {
       return
     }
 
-    await nextTick()
     const _component = unref(component)
 
     if (

@@ -9,6 +9,7 @@ const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'Unauthorized': 'modal.error.invalid.unauthorized',
   'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
   'License key not valid for this plugin version': 'modal.error.incompatible.licenseKey',
+  'License key not valid for this plugin version, please upgrade your license': 'modal.error.upgradeable.licenseKey',
   'License key already registered': 'modal.error.registered',
 }
 
@@ -28,8 +29,24 @@ export function useLicense(licenseOptions: LicenseOptions) {
   const openLicenseModal = () => {
     let isRegistered = false
 
+    const { label } = licenseOptions
+    const fields = {
+      info: {
+        type: 'info',
+        text: t('modal.info', { label }),
+      },
+      email: {
+        label: panel.t('email'),
+        type: 'email',
+      },
+      orderId: {
+        label: 'Order ID',
+        type: 'text',
+        help: t('modal.fields.orderId.help', { label }),
+      },
+    }
+
     return new Promise<LicenseModalResult>((resolve) => {
-      const { label } = licenseOptions
       panel.dialog.open({
         component: 'k-form-dialog',
         props: {
@@ -38,21 +55,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
             theme: 'love',
             text: t('activate', { label }),
           },
-          fields: {
-            info: {
-              type: 'info',
-              text: t('modal.info', { label }),
-            },
-            email: {
-              label: panel.t('email'),
-              type: 'email',
-            },
-            orderId: {
-              label: 'Order ID',
-              type: 'text',
-              help: t('modal.fields.orderId.help', { label }),
-            },
-          },
+          fields,
         },
         on: {
           // Close event will always be triggered, even on submit
@@ -99,9 +102,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
   }
 }
 
-async function registerLicense(event: Record<string, any>, {
-  apiNamespace,
-}: LicenseOptions) {
+async function registerLicense(event: Record<string, any>, licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { email, orderId } = event
 
@@ -111,7 +112,7 @@ async function registerLicense(event: Record<string, any>, {
   }
 
   try {
-    const response = await panel.api.post(`${apiNamespace}/register`, {
+    const response = await panel.api.post(`${licenseOptions.apiNamespace}/register`, {
       email,
       orderId: Number(orderId),
     })

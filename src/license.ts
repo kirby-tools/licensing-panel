@@ -1,10 +1,8 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, usePanel } from 'kirbyuse'
-import { t } from './utils'
+import { isLocal, t } from './utils'
 
-const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
-const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
 const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'Unauthorized': 'modal.error.invalid.unauthorized',
   'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
@@ -129,12 +127,4 @@ async function registerLicense(event: Record<string, any>, licenseOptions: Licen
       : message)
     return false
   }
-}
-
-function isLocal() {
-  const { hostname } = window.location
-  const isLocalhost = LOCALHOST_HOSTNAMES.includes(hostname)
-  const isLocalDomain = LOCAL_DOMAINS.some(domain => hostname.endsWith(`.${domain}`))
-
-  return isLocalhost || isLocalDomain
 }

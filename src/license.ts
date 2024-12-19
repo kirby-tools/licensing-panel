@@ -17,7 +17,7 @@ export interface LicenseOptions {
 }
 
 export interface LicenseModalResult {
-  isRegistered: boolean
+  isLicenseActive: boolean
 }
 
 export function useLicense(licenseOptions: LicenseOptions) {
@@ -25,7 +25,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
   const isLocalhost = isLocal()
 
   const openLicenseModal = () => {
-    let isRegistered = false
+    let isLicenseActive = false
 
     const { label } = licenseOptions
     const fields = {
@@ -58,11 +58,12 @@ export function useLicense(licenseOptions: LicenseOptions) {
         on: {
           // Close event will always be triggered, even on submit
           close: () => {
-            resolve({ isRegistered })
+            resolve({ isLicenseActive })
           },
           submit: async (event: Record<string, any>) => {
-            isRegistered = await registerLicense(event, licenseOptions)
-            if (isRegistered) {
+            isLicenseActive = await registerLicense(event, licenseOptions)
+
+            if (isLicenseActive) {
               panel.dialog.close()
               panel.notification.success(t('activated'))
             }

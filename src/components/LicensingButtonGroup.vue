@@ -40,10 +40,15 @@ onMounted(() => {
 })
 
 async function handleRegistration() {
-  const { isRegistered } = await openLicenseModal()
-  if (isRegistered) {
-    currentLicenseStatus.value = 'active'
-  }
+  const { isLicenseActive } = await openLicenseModal()
+
+  if (!isLicenseActive)
+    return
+
+  // currentLicenseStatus.value = 'active'
+
+  // Force a reload to refresh the plugin's cached context
+  window.location.reload()
 }
 </script>
 

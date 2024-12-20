@@ -59,22 +59,12 @@ async function handleRegistration() {
     layout="collapsed"
   >
     <k-button
-      v-if="currentLicenseStatus === 'upgradeable'"
-      theme="notice"
-      variant="filled"
-      size="xs"
-      link="https://hub.kirby.tools"
-      target="_blank"
-      :text="t('upgrade')"
-    />
-    <k-button
-      v-else
       theme="love"
       variant="filled"
       size="xs"
-      :link="pricingUrl"
+      :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
       target="_blank"
-      :text="t('buy')"
+      :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
     />
     <k-button
       theme="love"

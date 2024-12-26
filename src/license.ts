@@ -8,7 +8,7 @@ const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
   'License key not valid for this plugin version': 'modal.error.incompatible',
   'License key not valid for this plugin version, please upgrade your license': 'modal.error.upgradeable',
-  'License key already registered': 'modal.error.registered',
+  'License key already activated': 'modal.error.activated',
 }
 
 export interface LicenseOptions {
@@ -61,7 +61,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
             resolve({ isLicenseActive })
           },
           submit: async (event: Record<string, any>) => {
-            isLicenseActive = await registerLicense(event, licenseOptions)
+            isLicenseActive = await activateLicense(event, licenseOptions)
 
             if (isLicenseActive) {
               panel.dialog.close()
@@ -100,7 +100,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
   }
 }
 
-async function registerLicense(event: Record<string, any>, licenseOptions: LicenseOptions) {
+async function activateLicense(event: Record<string, any>, licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { email, orderId } = event
 
@@ -110,13 +110,13 @@ async function registerLicense(event: Record<string, any>, licenseOptions: Licen
   }
 
   try {
-    const response = await panel.api.post(`${licenseOptions.apiNamespace}/register`, {
+    const response = await panel.api.post(`${licenseOptions.apiNamespace}/activate`, {
       email,
       orderId: Number(orderId),
     })
 
     if (response?.status !== 'ok') {
-      throw new Error('Failed to register license')
+      throw new Error('Failed to activate license key')
     }
 
     return true

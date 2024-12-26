@@ -1,7 +1,7 @@
 {
   "name": "@kirby-tools/licensing",
   "type": "module",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "packageManager": "pnpm@9.15.1",
   "description": "Shared tooling for Kirby Tools licensing in the Kirby Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",

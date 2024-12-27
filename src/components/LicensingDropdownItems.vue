@@ -44,18 +44,17 @@ async function handleRegistration() {
 <template>
   <div v-if="currentLicenseStatus !== 'active'">
     <k-dropdown-item
-      theme="love"
-      variant="filled"
+      icon="cart"
       :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
       target="_blank"
-      :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
-    />
+    >
+      {{ currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy') }}
+    </k-dropdown-item>
     <k-dropdown-item
-      theme="love"
-      variant="filled"
       icon="key"
-      :text="t('activate')"
       @click="handleRegistration()"
-    />
+    >
+      {{ t('activate') }}
+    </k-dropdown-item>
   </div>
 </template>

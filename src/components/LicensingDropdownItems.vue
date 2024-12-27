@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { LicenseStatus } from '../types'
-import { onMounted, ref } from 'kirbyuse'
+import { ref } from 'kirbyuse'
 import { useLicense } from '../license'
 import { t } from '../utils'
 
@@ -24,20 +24,12 @@ const props = defineProps({
   },
 })
 
-const { openLicenseModal, assertActivationIntegrity } = useLicense({
+const { openLicenseModal } = useLicense({
   label: props.label,
   apiNamespace: props.apiNamespace,
 })
 
 const currentLicenseStatus = ref(props.licenseStatus)
-const licenseButtonGroup = ref<ComponentPublicInstance | undefined>()
-
-onMounted(() => {
-  assertActivationIntegrity({
-    component: licenseButtonGroup,
-    licenseStatus: props.licenseStatus,
-  })
-})
 
 async function handleRegistration() {
   const { isLicenseActive } = await openLicenseModal()
@@ -50,26 +42,20 @@ async function handleRegistration() {
 </script>
 
 <template>
-  <k-button-group
-    v-if="currentLicenseStatus !== 'active'"
-    ref="licenseButtonGroup"
-    layout="collapsed"
-  >
-    <k-button
+  <div v-if="currentLicenseStatus !== 'active'">
+    <k-dropdown-item
       theme="love"
       variant="filled"
-      size="xs"
       :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
       target="_blank"
       :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
     />
-    <k-button
+    <k-dropdown-item
       theme="love"
       variant="filled"
-      size="xs"
       icon="key"
       :text="t('activate')"
       @click="handleRegistration()"
     />
-  </k-button-group>
+  </div>
 </template>

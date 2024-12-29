@@ -4,11 +4,11 @@ import { unref, usePanel } from 'kirbyuse'
 import { isLocal, t } from './utils'
 
 const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
-  'Unauthorized': 'modal.error.invalid.unauthorized',
-  'License key not valid for this plugin': 'modal.error.invalid.licenseKey',
-  'License key not valid for this plugin version': 'modal.error.incompatible',
-  'License key not valid for this plugin version, please upgrade your license': 'modal.error.upgradeable',
-  'License key already activated': 'modal.error.activated',
+  'Unauthorized': 'errors.validation.invalidCredentials',
+  'License key not valid for this plugin': 'errors.license.invalidPlugin',
+  'License key not valid for this plugin version': 'errors.license.versionMismatch',
+  'License key not valid for this plugin version, please upgrade your license': 'errors.license.needsUpgrade',
+  'License key already activated': 'errors.activation.alreadyUsed',
 }
 
 export interface LicenseOptions {
@@ -31,7 +31,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
     const fields = {
       info: {
         type: 'info',
-        text: t('modal.info', { label }),
+        text: t('modal.fields.info', { label }),
       },
       email: {
         label: panel.t('email'),
@@ -105,7 +105,7 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
   const { email, orderId } = event
 
   if (!email || !orderId) {
-    panel.notification.error(t('modal.error.required.fields'))
+    panel.notification.error(t('errors.validation.missingFields'))
     return false
   }
 

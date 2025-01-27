@@ -58,7 +58,9 @@ export function useLicense(licenseOptions: LicenseOptions) {
         on: {
           // Close event will always be triggered, even on submit
           close: () => {
-            resolve({ isLicenseActive })
+            setTimeout(() => {
+              resolve({ isLicenseActive })
+            }, 25)
           },
           submit: async (event: Record<string, any>) => {
             isLicenseActive = await activateLicense(event, licenseOptions)

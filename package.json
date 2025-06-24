@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.5.2",
   "packageManager": "pnpm@9.15.9",
-  "description": "Shared tooling for Kirby Tools licensing in the Kirby Panel",
+  "description": "License management for Kirby Tools plugins within the Kirby Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "AGPL-3.0-or-later",
   "homepage": "https://github.com/kirby-tools/licensing-panel#readme",

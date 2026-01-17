@@ -1,6 +1,6 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
-import { unref, usePanel } from 'kirbyuse'
+import { unref, useDialog, usePanel } from 'kirbyuse'
 import { isLocal, t } from './utils'
 
 const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
@@ -10,6 +10,8 @@ const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'License key not valid for this plugin version, please upgrade your license': 'errors.license.needsUpgrade',
   'License key already activated': 'errors.activation.alreadyUsed',
 }
+
+const INTEGRITY_ERROR = 'The activation buttons appear to be hidden. Please purchase a license.'
 
 export interface LicenseOptions {
   label: string
@@ -22,11 +24,10 @@ export interface LicenseModalResult {
 
 export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
+  const { openFieldsDialog } = useDialog()
   const isLocalhost = isLocal()
 
-  const openLicenseModal = () => {
-    let isLicenseActive = false
-
+  const openLicenseModal = async () => {
     const { label } = licenseOptions
     const fields = {
       info: {
@@ -44,38 +45,31 @@ export function useLicense(licenseOptions: LicenseOptions) {
       },
     }
 
-    return new Promise<LicenseModalResult>((resolve) => {
-      panel.dialog.open({
-        component: 'k-form-dialog',
-        props: {
-          submitButton: {
-            icon: 'check',
-            theme: 'love',
-            text: t('activate', { label }),
-          },
-          fields,
-        },
-        on: {
-          // Close event will always be triggered, even on submit
-          close: () => {
-            setTimeout(() => {
-              resolve({ isLicenseActive })
-            }, 25)
-          },
-          submit: async (event: Record<string, any>) => {
-            isLicenseActive = await activateLicense(event, licenseOptions)
+    const result = await openFieldsDialog({
+      submitButton: {
+        icon: 'check',
+        theme: 'love',
+        text: t('activate', { label }),
+      },
+      fields,
+      onSubmit: async (value) => {
+        const isLicenseActive = await activateLicense(value, licenseOptions)
 
-            if (isLicenseActive) {
-              panel.dialog.close()
-              panel.notification.success(t('activated'))
-            }
-          },
-        },
-      })
+        if (!isLicenseActive) {
+          return false
+        }
+
+        panel.notification.success(t('activated'))
+        return { isLicenseActive }
+      },
     })
+
+    return {
+      isLicenseActive: result?.isLicenseActive ?? false,
+    }
   }
 
-  const assertActivationIntegrity = async ({ component, licenseStatus }: {
+  const assertActivationIntegrity = ({ component, licenseStatus }: {
     component: MaybeRef<ComponentPublicInstance | null | undefined>
     licenseStatus: MaybeRef<LicenseStatus>
   }) => {
@@ -83,15 +77,34 @@ export function useLicense(licenseOptions: LicenseOptions) {
       return
     }
 
-    const _component = unref(component)
+    const element = unref(component)?.$el as HTMLElement | undefined
 
+    if (!element) {
+      throw new Error(INTEGRITY_ERROR)
+    }
+
+    const style = window.getComputedStyle(element)
     if (
-      !_component?.$el
-      || window.getComputedStyle(_component.$el).display === 'none'
-      || window.getComputedStyle(_component.$el).visibility === 'hidden'
-      || window.getComputedStyle(_component.$el).opacity === '0'
+      style.display === 'none'
+      || style.visibility === 'hidden'
+      || style.opacity === '0'
+      || style.clipPath === 'inset(100%)'
+      || style.transform.includes('scale(0')
     ) {
-      throw new Error('Are you trying to hide the activation buttons? Please buy a license.')
+      throw new Error(INTEGRITY_ERROR)
+    }
+
+    // Check if element has zero dimensions or is off-screen
+    const rect = element.getBoundingClientRect()
+    if (
+      rect.width === 0
+      || rect.height === 0
+      || rect.right < 0
+      || rect.bottom < 0
+      || rect.left > window.innerWidth
+      || rect.top > window.innerHeight
+    ) {
+      throw new Error(INTEGRITY_ERROR)
     }
   }
 

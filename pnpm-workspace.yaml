@@ -1,2 +1,9 @@
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
+overrides:
+  eslint-plugin-regexp>comment-parser: ^1.4.3
+
 onlyBuiltDependencies:
   - esbuild

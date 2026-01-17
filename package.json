@@ -2,7 +2,7 @@
   "name": "@kirby-tools/licensing",
   "type": "module",
   "version": "0.5.2",
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.28.0",
   "description": "License system for Kirby Tools plugins within the Kirby Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "AGPL-3.0-or-later",
@@ -17,20 +17,20 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
     "./components": {
-      "types": "./dist/components/index.d.ts",
+      "types": "./dist/components/index.d.mts",
       "import": "./dist/components/index.mjs"
     }
   },
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "release": "bumpp"
@@ -42,11 +42,12 @@
     "vue": "^2.7.16"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.2.0",
-    "bumpp": "^10.3.2",
-    "eslint": "^9.39.1",
-    "kirbyuse": "^1.0.0",
-    "typescript": "^5.9.3",
-    "unbuild": "^3.6.1"
+    "@antfu/eslint-config": "^7.0.1",
+    "@types/node": "^25.0.9",
+    "bumpp": "^10.4.0",
+    "eslint": "^9.39.2",
+    "kirbyuse": "^1.2.10",
+    "tsdown": "^0.19.0",
+    "typescript": "^5.9.3"
   }
 }

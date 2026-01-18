@@ -7,6 +7,7 @@ export default defineConfig({
   entry: 'src/index.ts',
   dts: true,
   platform: 'neutral',
+  unbundle: true,
   hooks: {
     'build:done': async () => {
       const componentsDir = 'dist/components'

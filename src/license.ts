@@ -79,7 +79,8 @@ export function useLicense(licenseOptions: LicenseOptions) {
     const element = unref(component)?.$el as HTMLElement | undefined
 
     if (!element) {
-      throw new Error(INTEGRITY_ERROR)
+      panel.notification.error(INTEGRITY_ERROR)
+      return
     }
 
     const style = window.getComputedStyle(element)
@@ -90,7 +91,8 @@ export function useLicense(licenseOptions: LicenseOptions) {
       || style.clipPath === 'inset(100%)'
       || style.transform.includes('scale(0')
     ) {
-      throw new Error(INTEGRITY_ERROR)
+      panel.notification.error(INTEGRITY_ERROR)
+      return
     }
 
     // Check if element has zero dimensions or is off-screen
@@ -103,7 +105,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
       || rect.left > window.innerWidth
       || rect.top > window.innerHeight
     ) {
-      throw new Error(INTEGRITY_ERROR)
+      panel.notification.error(INTEGRITY_ERROR)
     }
   }
 

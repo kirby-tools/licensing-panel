@@ -1,7 +1,15 @@
 import { TRANSLATIONS } from './constants'
 
-const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
-const LOCAL_DOMAINS = ['local', 'test', 'ddev.site']
+const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]', '0.0.0.0']
+const LOCAL_TLD_SUFFIXES = [
+  'localhost',
+  'local', // Local by Flywheel, general
+  'test', // Laravel Herd, Valet
+  'ddev.site', // DDEV
+  'lndo.site', // Lando
+  'nitro', // Craft Nitro
+  'dev.cc', // ServBay
+]
 
 export function template(
   input: string,
@@ -14,17 +22,17 @@ export function template(
   )
 }
 
-export function t(key = '', data?: Record<string, string>) {
+export function t(key: string, data?: Record<string, string>) {
   const languageCode = window.panel.translation.code
   const translation = TRANSLATIONS?.[languageCode]?.[key] ?? key
 
   return data ? template(translation, data) : translation
 }
 
-export function isLocal() {
+export function isLocalHost() {
   const { hostname } = window.location
-  const isLocalhost = LOCALHOST_HOSTNAMES.includes(hostname)
-  const isLocalDomain = LOCAL_DOMAINS.some(domain => hostname.endsWith(`.${domain}`))
+  const isLocalHostname = LOCALHOST_HOSTNAMES.includes(hostname)
+  const isLocalTld = LOCAL_TLD_SUFFIXES.some(suffix => hostname.endsWith(`.${suffix}`))
 
-  return isLocalhost || isLocalDomain
+  return isLocalHostname || isLocalTld
 }

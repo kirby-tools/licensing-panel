@@ -1,7 +1,7 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, useDialog, usePanel } from 'kirbyuse'
-import { isLocal, t } from './utils'
+import { isLocalHost, t } from './utils'
 
 const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
   'Unauthorized': 'errors.validation.invalidCredentials',
@@ -25,7 +25,7 @@ export interface LicenseModalResult {
 export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { openFieldsDialog } = useDialog()
-  const isLocalhost = isLocal()
+  const isLocalhost = isLocalHost()
 
   const openLicenseModal = async () => {
     const { label } = licenseOptions

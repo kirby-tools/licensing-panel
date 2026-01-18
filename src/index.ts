@@ -1,3 +1,3 @@
 export * from './license'
 export type { License, LicenseKey, LicenseStatus } from './types'
-export { isLocal } from './utils'
+export { isLocalHost } from './utils'

@@ -21,8 +21,8 @@ export { default as LicensingButtonGroup } from "./LicensingButtonGroup.vue";
 export { default as LicensingDropdownItems } from "./LicensingDropdownItems.vue";
 `.trimStart()
 
-      await writeFile(`${componentsDir}/index.mjs`, indexContent)
-      await writeFile(`${componentsDir}/index.d.mts`, indexContent)
+      await writeFile(`${componentsDir}/index.js`, indexContent)
+      await writeFile(`${componentsDir}/index.d.ts`, indexContent)
     },
   },
 })

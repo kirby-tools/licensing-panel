@@ -6,6 +6,7 @@ const VUE_COMPONENTS = ['LicensingButtonGroup.vue', 'LicensingDropdownItems.vue'
 export default defineConfig({
   entry: 'src/index.ts',
   dts: true,
+  platform: 'neutral',
   hooks: {
     'build:done': async () => {
       const componentsDir = 'dist/components'

@@ -29,21 +29,6 @@ export function useLicense(licenseOptions: LicenseOptions) {
 
   const openLicenseModal = async () => {
     const { label } = licenseOptions
-    const fields = {
-      info: {
-        type: 'info',
-        text: t('modal.fields.info', { label }),
-      },
-      email: {
-        label: panel.t('email'),
-        type: 'email',
-      },
-      orderId: {
-        label: 'Order ID',
-        type: 'text',
-        help: t('modal.fields.orderId.help', { label }),
-      },
-    }
 
     const result = await openFieldsDialog({
       submitButton: {
@@ -51,7 +36,21 @@ export function useLicense(licenseOptions: LicenseOptions) {
         theme: 'love',
         text: t('activate', { label }),
       },
-      fields,
+      fields: {
+        info: {
+          type: 'info',
+          text: t('modal.fields.info', { label }),
+        },
+        email: {
+          label: panel.t('email'),
+          type: 'email',
+        },
+        orderId: {
+          label: 'Order ID',
+          type: 'text',
+          help: t('modal.fields.orderId.help', { label }),
+        },
+      },
       onSubmit: async (value) => {
         const isLicenseActive = await activateLicense(value, licenseOptions)
 

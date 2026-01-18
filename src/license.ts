@@ -9,32 +9,22 @@ export interface LicenseOptions {
   apiNamespace: string
 }
 
-export interface LicenseModalResult {
-  isLicenseActive: boolean
-}
-
 export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { openFieldsDialog } = useDialog()
   const isLocalhost = isLocalHost()
 
   const openLicenseModal = async () => {
-    const { label } = licenseOptions
     let isSubmitting = false
 
     await openFieldsDialog({
-      submitButton: {
-        icon: 'check',
-        theme: 'love',
-        text: t('activate', { label }),
-      },
       fields: {
         info: {
           type: 'info',
           text: panel.t('kirby-tools.license.activate.info'),
         },
         email: {
-          label: panel.t('email'),
+          label: panel.t('kirby-tools.license.activate.email'),
           type: 'email',
         },
         orderId: {
@@ -42,6 +32,11 @@ export function useLicense(licenseOptions: LicenseOptions) {
           type: 'text',
           help: panel.t('kirby-tools.license.activate.orderId.help'),
         },
+      },
+      submitButton: {
+        icon: 'check',
+        theme: 'love',
+        text: panel.t('kirby-tools.license.activate.submit'),
       },
       onSubmit: async (value) => {
         if (isSubmitting)

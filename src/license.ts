@@ -139,9 +139,8 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
   }
   catch (error) {
     const message = (error as Error).message
-    panel.notification.error(ERROR_KEY_MAP[message]
-      ? t(ERROR_KEY_MAP[message])
-      : message)
+    const translationKey = ERROR_KEY_MAP[message]
+    panel.notification.error(translationKey ? panel.t(translationKey) : message)
     return false
   }
 }

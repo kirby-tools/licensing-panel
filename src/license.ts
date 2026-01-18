@@ -31,16 +31,16 @@ export function useLicense(licenseOptions: LicenseOptions) {
       fields: {
         info: {
           type: 'info',
-          text: t('modal.fields.info', { label }),
+          text: panel.t('kirby-tools.license.activate.info'),
         },
         email: {
           label: panel.t('email'),
           type: 'email',
         },
         orderId: {
-          label: 'Order ID',
+          label: panel.t('kirby-tools.license.activate.orderId'),
           type: 'text',
-          help: t('modal.fields.orderId.help', { label }),
+          help: panel.t('kirby-tools.license.activate.orderId.help'),
         },
       },
       onSubmit: async (value) => {

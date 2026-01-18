@@ -1,17 +1,8 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, useDialog, usePanel } from 'kirbyuse'
+import { ERROR_KEY_MAP, INTEGRITY_ERROR } from './constants'
 import { isLocalHost, t } from './utils'
-
-const ERROR_MESSAGE_TRANSLATIONS: Record<string, string> = {
-  'Unauthorized': 'errors.validation.invalidCredentials',
-  'License key not valid for this plugin': 'errors.license.invalidPlugin',
-  'License key not valid for this plugin version': 'errors.license.versionMismatch',
-  'License key not valid for this plugin version, please upgrade your license': 'errors.license.needsUpgrade',
-  'License key already activated': 'errors.activation.alreadyUsed',
-}
-
-const INTEGRITY_ERROR = 'The activation buttons appear to be hidden. Please purchase a license.'
 
 export interface LicenseOptions {
   label: string
@@ -137,8 +128,8 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
   }
   catch (error) {
     const message = (error as Error).message
-    panel.notification.error(ERROR_MESSAGE_TRANSLATIONS[message]
-      ? t(ERROR_MESSAGE_TRANSLATIONS[message])
+    panel.notification.error(ERROR_KEY_MAP[message]
+      ? t(ERROR_KEY_MAP[message])
       : message)
     return false
   }

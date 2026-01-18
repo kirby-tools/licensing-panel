@@ -1,4 +1,4 @@
-import { TRANSLATIONS } from './constants'
+import { I18N_MESSAGES } from './constants'
 
 const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]', '0.0.0.0']
 const LOCAL_TLD_SUFFIXES = [
@@ -24,7 +24,7 @@ export function template(
 
 export function t(key: string, data?: Record<string, string>) {
   const languageCode = window.panel.translation.code
-  const translation = TRANSLATIONS?.[languageCode]?.[key] ?? key
+  const translation = I18N_MESSAGES?.[languageCode]?.[key] ?? key
 
   return data ? template(translation, data) : translation
 }

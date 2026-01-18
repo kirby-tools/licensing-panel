@@ -2,7 +2,17 @@ export type Locale = string
 export type Message = string
 export type Messages = Record<string, Message>
 
-export const TRANSLATIONS: Record<Locale, Messages> = {
+export const ERROR_KEY_MAP: Record<string, string> = {
+  'Unauthorized': 'errors.validation.invalidCredentials',
+  'License key not valid for this plugin': 'errors.license.invalidPlugin',
+  'License key not valid for this plugin version': 'errors.license.versionMismatch',
+  'License key not valid for this plugin version, please upgrade your license': 'errors.license.needsUpgrade',
+  'License key already activated': 'errors.activation.alreadyUsed',
+}
+
+export const INTEGRITY_ERROR = 'The activation buttons appear to be hidden. Please purchase a license.'
+
+export const I18N_MESSAGES: Record<Locale, Messages> = {
   en: {
     'modal.fields.info': 'Thanks for purchasing {label}! Please enter your email address and order ID to activate your license.',
     'modal.fields.orderId.help': '<a href="https://app.lemonsqueezy.com/my-orders" target="_blank">Find your order number</a> on Lemon Squeezy or <a href="mailto:hello@kirby.tools">contact us</a> if you cannot find it.',
@@ -50,9 +60,9 @@ export const TRANSLATIONS: Record<Locale, Messages> = {
     'modal.fields.orderId.help': '<a href="https://app.lemonsqueezy.com/my-orders" target="_blank">Vind je bestelnummer</a> op Lemon Squeezy of <a href="mailto:hello@kirby.tools">neem contact met ons op</a> als je het niet kunt vinden.',
     'errors.validation.missingFields': 'E-mailadres en bestelnummer zijn verplicht',
     'errors.validation.invalidCredentials': 'E-mailadres of bestelnummer is onjuist',
-    'errors.license.invalidPlugin': 'Licentiesleutel ongeldig voor dit plug-in',
-    'errors.license.versionMismatch': 'Licentiesleutel ongeldig voor deze plug-inversie',
-    'errors.license.needsUpgrade': 'Licentiesleutel ongeldig voor deze plug-inversie. Upgrade nu op https://hub.kirby.tools.',
+    'errors.license.invalidPlugin': 'Licentiesleutel ongeldig voor deze plugin',
+    'errors.license.versionMismatch': 'Licentiesleutel ongeldig voor deze pluginversie',
+    'errors.license.needsUpgrade': 'Licentiesleutel ongeldig voor deze pluginversie. Upgrade nu op https://hub.kirby.tools.',
     'errors.activation.alreadyUsed': 'Licentiesleutel al geactiveerd',
     'activate': 'Activeren',
     'activated': 'Plugin geactiveerd',

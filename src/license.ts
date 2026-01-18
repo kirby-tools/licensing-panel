@@ -20,8 +20,9 @@ export function useLicense(licenseOptions: LicenseOptions) {
 
   const openLicenseModal = async () => {
     const { label } = licenseOptions
+    let isSubmitting = false
 
-    const result = await openFieldsDialog({
+    await openFieldsDialog({
       submitButton: {
         icon: 'check',
         theme: 'love',
@@ -43,35 +44,37 @@ export function useLicense(licenseOptions: LicenseOptions) {
         },
       },
       onSubmit: async (value) => {
+        if (isSubmitting)
+          return false
+
+        isSubmitting = true
+
         const isLicenseActive = await activateLicense(value, licenseOptions)
 
         if (!isLicenseActive) {
+          isSubmitting = false
           return false
         }
 
         panel.notification.success(t('notification.success'))
         await new Promise(resolve => setTimeout(resolve, 750))
 
-        // Force a reload to refresh the plugin's cached context
+        // Force a reload to refresh the plugin's cached context.
         window.location.reload()
 
-        // This will intentionally not be reached
-        return { isLicenseActive }
+        // Return a never-resolving promise to keep the dialog open
+        // until the page reload completes.
+        return new Promise(() => {})
       },
     })
-
-    return {
-      isLicenseActive: result?.isLicenseActive ?? false,
-    }
   }
 
   const assertActivationIntegrity = ({ component, licenseStatus }: {
     component: MaybeRef<ComponentPublicInstance | null | undefined>
     licenseStatus: MaybeRef<LicenseStatus>
   }) => {
-    if (unref(licenseStatus) === 'active') {
+    if (unref(licenseStatus) === 'active')
       return
-    }
 
     const element = unref(component)?.$el as HTMLElement | undefined
 

@@ -49,8 +49,8 @@ export function useLicense(licenseOptions: LicenseOptions) {
           return false
         }
 
-        panel.notification.success(t('activated'))
-        await new Promise(resolve => setTimeout(resolve, 250))
+        panel.notification.success(t('notification.success'))
+        await new Promise(resolve => setTimeout(resolve, 750))
 
         // Force a reload to refresh the plugin's cached context
         window.location.reload()

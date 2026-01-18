@@ -39,7 +39,7 @@ onMounted(() => {
   })
 })
 
-async function handleRegistration() {
+async function handleActivation() {
   await openLicenseModal()
 }
 </script>
@@ -64,7 +64,7 @@ async function handleRegistration() {
       size="xs"
       icon="key"
       :text="t('activate')"
-      @click="handleRegistration()"
+      @click="handleActivation()"
     />
   </k-button-group>
 </template>

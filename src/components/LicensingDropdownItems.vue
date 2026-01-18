@@ -31,7 +31,7 @@ const { openLicenseModal } = useLicense({
 
 const currentLicenseStatus = ref(props.licenseStatus)
 
-async function handleRegistration() {
+async function handleActivation() {
   await openLicenseModal()
 }
 </script>
@@ -47,7 +47,7 @@ async function handleRegistration() {
     </k-dropdown-item>
     <k-dropdown-item
       icon="key"
-      @click="handleRegistration()"
+      @click="handleActivation()"
     >
       {{ t('activate') }}
     </k-dropdown-item>

@@ -26,10 +26,12 @@ export function useLicense(licenseOptions: LicenseOptions) {
         email: {
           label: panel.t('kirby-tools.license.activate.email'),
           type: 'email',
+          required: true,
         },
         orderId: {
           label: panel.t('kirby-tools.license.activate.orderId'),
           type: 'text',
+          required: true,
           help: panel.t('kirby-tools.license.activate.orderId.help'),
         },
       },
@@ -115,10 +117,8 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
   const panel = usePanel()
   const { email, orderId } = event
 
-  if (!email || !orderId) {
-    panel.notification.error(t('errors.validation.missingFields'))
+  if (!email || !orderId)
     return false
-  }
 
   try {
     const response = await panel.api.post(`${licenseOptions.apiNamespace}/activate`, {

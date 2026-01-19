@@ -1,7 +1,7 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, useDialog, usePanel } from 'kirbyuse'
-import { ERROR_KEY_MAP, INTEGRITY_ERROR } from './constants'
+import { INTEGRITY_ERROR } from './constants'
 import { isLocalHost, t } from './utils'
 
 export interface LicenseOptions {
@@ -133,9 +133,7 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
     return true
   }
   catch (error) {
-    const message = (error as Error).message
-    const translationKey = ERROR_KEY_MAP[message]
-    panel.notification.error(translationKey ? panel.t(translationKey) : message)
+    panel.notification.error((error as Error).message)
     return false
   }
 }

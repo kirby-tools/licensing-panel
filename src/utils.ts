@@ -1,14 +1,11 @@
 import { I18N_MESSAGES } from './constants'
 
-const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]', '0.0.0.0']
+const LOCALHOST_HOSTNAMES = ['localhost', '127.0.0.1', '[::1]']
 const LOCAL_TLD_SUFFIXES = [
   'localhost',
   'local', // Local by Flywheel, general
   'test', // Laravel Herd, Valet
   'ddev.site', // DDEV
-  'lndo.site', // Lando
-  'nitro', // Craft Nitro
-  'dev.cc', // ServBay
 ]
 
 export function template(

@@ -2,7 +2,7 @@ import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, useDialog, usePanel } from 'kirbyuse'
 import { INTEGRITY_ERROR } from './constants'
-import { isLocalHost, t } from './utils'
+import { t } from './utils'
 
 export interface LicenseOptions {
   label: string
@@ -12,7 +12,6 @@ export interface LicenseOptions {
 export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { openFieldsDialog } = useDialog()
-  const isLocalhost = isLocalHost()
 
   const openLicenseModal = async () => {
     let isSubmitting = false
@@ -107,7 +106,6 @@ export function useLicense(licenseOptions: LicenseOptions) {
   }
 
   return {
-    isLocalhost,
     assertActivationIntegrity,
     openLicenseModal,
   }

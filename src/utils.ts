@@ -6,6 +6,7 @@ export function template(
   fallback?: string | ((key: string) => string),
 ) {
   return input.replace(
+    // eslint-disable-next-line e18e/prefer-static-regex
     /\{(\w+)\}/g,
     (_, key) => values[key] || ((typeof fallback === 'function' ? fallback(key) : fallback) ?? key),
   )

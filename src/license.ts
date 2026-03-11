@@ -121,7 +121,7 @@ async function activateLicense(event: Record<string, any>, licenseOptions: Licen
   try {
     const response = await panel.api.post(`${licenseOptions.apiNamespace}/activate`, {
       email,
-      orderId: Number(orderId),
+      orderId,
     })
 
     if (response?.status !== 'ok') {

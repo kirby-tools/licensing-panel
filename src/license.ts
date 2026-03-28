@@ -27,11 +27,11 @@ export function useLicense(licenseOptions: LicenseOptions) {
           type: 'email',
           required: true,
         },
-        orderId: {
-          label: panel.t('kirby-tools.license.activate.orderId'),
+        licenseKey: {
+          label: panel.t('kirby-tools.license.activate.licenseKey'),
           type: 'text',
           required: true,
-          help: panel.t('kirby-tools.license.activate.orderId.help'),
+          help: panel.t('kirby-tools.license.activate.licenseKey.help'),
         },
       },
       submitButton: {
@@ -113,15 +113,15 @@ export function useLicense(licenseOptions: LicenseOptions) {
 
 async function activateLicense(event: Record<string, any>, licenseOptions: LicenseOptions) {
   const panel = usePanel()
-  const { email, orderId } = event
+  const { email, licenseKey } = event
 
-  if (!email || !orderId)
+  if (!email || !licenseKey)
     return false
 
   try {
     const response = await panel.api.post(`${licenseOptions.apiNamespace}/activate`, {
       email,
-      orderId,
+      licenseKey,
     })
 
     if (response?.status !== 'ok') {

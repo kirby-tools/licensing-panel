@@ -1,7 +1,7 @@
 {
   "name": "@kirby-tools/licensing",
   "type": "module",
-  "version": "0.7.2",
+  "version": "0.8.0",
   "packageManager": "pnpm@10.33.0",
   "description": "License system for Kirby Tools plugins within the Kirby Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",

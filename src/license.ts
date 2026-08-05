@@ -91,7 +91,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
       return
     }
 
-    // Check if element has zero dimensions or is off-screen
+    // Check if `element` has zero dimensions or is off-screen.
     const rect = element.getBoundingClientRect()
     if (
       rect.width === 0

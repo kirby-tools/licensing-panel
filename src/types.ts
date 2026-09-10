@@ -7,6 +7,6 @@ export type LicenseStatus = 'active' | 'inactive' | 'invalid' | 'incompatible' |
 
 export interface License {
   key: LicenseKey
-  version: number
+  generation: number
   compatibility: string
 }

@@ -24,7 +24,7 @@ const props = defineProps({
   },
 })
 
-const { openLicenseModal } = useLicense({
+const { openLicenseDialog } = useLicense({
   label: props.label,
   apiNamespace: props.apiNamespace,
 })
@@ -32,7 +32,7 @@ const { openLicenseModal } = useLicense({
 const currentLicenseStatus = ref(props.licenseStatus)
 
 async function handleActivation() {
-  await openLicenseModal()
+  await openLicenseDialog()
 }
 </script>
 

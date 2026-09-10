@@ -13,7 +13,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
   const panel = usePanel()
   const { openFieldsDialog } = useDialog()
 
-  const openLicenseModal = async () => {
+  const openLicenseDialog = async () => {
     let isSubmitting = false
 
     await openFieldsDialog({
@@ -107,7 +107,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
 
   return {
     assertActivationIntegrity,
-    openLicenseModal,
+    openLicenseDialog,
   }
 }
 

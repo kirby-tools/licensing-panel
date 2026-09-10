@@ -6,7 +6,7 @@ Internal shared library for managing licensing and activation of commercial Kirb
 
 This package provides a unified licensing system for all commercial Kirby Tools plugins, handling:
 
-- **License activation**: Modal dialogs for entering email and license key
+- **License activation**: Dialogs for entering email and license key
 - **License validation**: Checking license status (active, inactive, invalid, incompatible, upgradeable)
 - **UI components**: Pre-built Vue components for license buttons and dropdown items
 - **Multi-language support**: Translations for English, German, Spanish, French, Italian, and Dutch
@@ -16,7 +16,7 @@ This package provides a unified licensing system for all commercial Kirby Tools 
 ```ts
 import { useLicense } from '@kirby-tools/licensing'
 
-const { openLicenseModal, assertActivationIntegrity } = useLicense({
+const { openLicenseDialog, assertActivationIntegrity } = useLicense({
   label: 'Plugin Name',
   apiNamespace: 'plugin-namespace'
 })

@@ -24,7 +24,7 @@ const props = defineProps({
   },
 })
 
-const { openLicenseModal, assertActivationIntegrity } = useLicense({
+const { openLicenseDialog, assertActivationIntegrity } = useLicense({
   label: props.label,
   apiNamespace: props.apiNamespace,
 })
@@ -40,7 +40,7 @@ onMounted(() => {
 })
 
 async function handleActivation() {
-  await openLicenseModal()
+  await openLicenseDialog()
 }
 </script>
 

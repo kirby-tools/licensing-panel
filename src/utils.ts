@@ -13,7 +13,9 @@ export function template(
 
 export function t(key: string, data?: Record<string, string>) {
   const languageCode = window.panel.translation.code
-  const translation = I18N_MESSAGES?.[languageCode]?.[key] ?? key
+  // Kirby ships regional codes like `es_ES` or `pt_BR` next to bare ones
+  const messages = I18N_MESSAGES[languageCode] ?? I18N_MESSAGES[languageCode.split('_')[0]!]
+  const translation = messages?.[key] ?? I18N_MESSAGES.en![key] ?? key
 
   return data ? template(translation, data) : translation
 }

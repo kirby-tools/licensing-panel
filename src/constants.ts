@@ -42,4 +42,10 @@ export const I18N_MESSAGES: Record<Locale, Messages> = {
     'upgrade': 'Upgrade',
     'notification.success': 'Plugin geactiveerd!',
   },
+  pt: {
+    'activate': 'Ativar',
+    'buy': 'Comprar licença',
+    'upgrade': 'Atualizar',
+    'notification.success': 'Plugin ativado!',
+  },
 }

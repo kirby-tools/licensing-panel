@@ -85,22 +85,14 @@ export function useLicense(licenseOptions: LicenseOptions) {
       || style.visibility === 'hidden'
       || style.opacity === '0'
       || style.clipPath === 'inset(100%)'
-      || style.transform.includes('scale(0')
     ) {
       panel.notification.error(INTEGRITY_ERROR)
       return
     }
 
-    // Check if `element` has zero dimensions or is off-screen.
+    // The position is no signal: a section below the fold mounts off-screen.
     const rect = element.getBoundingClientRect()
-    if (
-      rect.width === 0
-      || rect.height === 0
-      || rect.right < 0
-      || rect.bottom < 0
-      || rect.left > window.innerWidth
-      || rect.top > window.innerHeight
-    ) {
+    if (rect.width === 0 || rect.height === 0) {
       panel.notification.error(INTEGRITY_ERROR)
     }
   }

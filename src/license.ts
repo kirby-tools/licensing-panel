@@ -1,7 +1,7 @@
 import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus, MaybeRef } from './types'
 import { unref, useDialog, usePanel } from 'kirbyuse'
-import { INTEGRITY_ERROR } from './constants'
+import { BACKEND_MESSAGES, INTEGRITY_ERROR } from './constants'
 import { t } from './utils'
 
 export interface LicenseOptions {
@@ -97,9 +97,14 @@ export function useLicense(licenseOptions: LicenseOptions) {
     }
   }
 
+  // Reads the strings the System view and the PHP dialogs use
+  const backendT = (key: keyof typeof BACKEND_MESSAGES) =>
+    panel.t(`kirby-tools.license.${key}`, {}, BACKEND_MESSAGES[key])
+
   return {
     assertActivationIntegrity,
     openLicenseDialog,
+    backendT,
   }
 }
 

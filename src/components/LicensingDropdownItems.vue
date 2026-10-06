@@ -24,7 +24,7 @@ const props = defineProps({
   },
 })
 
-const { openLicenseDialog } = useLicense({
+const { openLicenseDialog, backendT } = useLicense({
   label: props.label,
   apiNamespace: props.apiNamespace,
 })
@@ -38,18 +38,36 @@ async function handleActivation() {
 
 <template>
   <div v-if="currentLicenseStatus !== 'active'">
+    <!-- Mirrors the System view: an invalid key gets re-entered, an incompatible one upgraded -->
     <k-dropdown-item
-      icon="cart"
-      :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
-      target="_blank"
-    >
-      {{ currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy') }}
-    </k-dropdown-item>
-    <k-dropdown-item
-      icon="key"
+      v-if="currentLicenseStatus === 'invalid'"
+      icon="alert"
       @click="handleActivation()"
     >
-      {{ t('activate') }}
+      {{ backendT('status.invalid') }}
     </k-dropdown-item>
+    <k-dropdown-item
+      v-else-if="currentLicenseStatus === 'incompatible'"
+      icon="alert"
+      link="https://hub.kirby.tools"
+      target="_blank"
+    >
+      {{ backendT('status.incompatible') }}
+    </k-dropdown-item>
+    <template v-else>
+      <k-dropdown-item
+        icon="cart"
+        :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
+        target="_blank"
+      >
+        {{ currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy') }}
+      </k-dropdown-item>
+      <k-dropdown-item
+        icon="key"
+        @click="handleActivation()"
+      >
+        {{ t('activate') }}
+      </k-dropdown-item>
+    </template>
   </div>
 </template>

@@ -24,7 +24,7 @@ const props = defineProps({
   },
 })
 
-const { openLicenseDialog, assertActivationIntegrity } = useLicense({
+const { openLicenseDialog, assertActivationIntegrity, backendT } = useLicense({
   label: props.label,
   apiNamespace: props.apiNamespace,
 })
@@ -50,21 +50,44 @@ async function handleActivation() {
     ref="licenseButtonGroup"
     layout="collapsed"
   >
+    <!-- Mirrors the System view: an invalid key gets re-entered, an incompatible one upgraded -->
     <k-button
-      theme="love"
+      v-if="currentLicenseStatus === 'invalid'"
+      theme="negative"
       variant="filled"
       size="xs"
-      :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
-      target="_blank"
-      :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
-    />
-    <k-button
-      theme="love"
-      variant="filled"
-      size="xs"
-      icon="key"
-      :text="t('activate')"
+      icon="alert"
+      :text="backendT('status.invalid')"
       @click="handleActivation()"
     />
+    <k-button
+      v-else-if="currentLicenseStatus === 'incompatible'"
+      theme="negative"
+      variant="filled"
+      size="xs"
+      icon="alert"
+      link="https://hub.kirby.tools"
+      target="_blank"
+      :text="backendT('info.upgrade')"
+      :title="backendT('status.incompatible')"
+    />
+    <template v-else>
+      <k-button
+        theme="love"
+        variant="filled"
+        size="xs"
+        :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
+        target="_blank"
+        :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
+      />
+      <k-button
+        theme="love"
+        variant="filled"
+        size="xs"
+        icon="key"
+        :text="t('activate')"
+        @click="handleActivation()"
+      />
+    </template>
   </k-button-group>
 </template>

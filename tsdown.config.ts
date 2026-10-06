@@ -4,7 +4,8 @@ import { defineConfig } from 'tsdown'
 const VUE_COMPONENTS = ['LicensingButtonGroup.vue', 'LicensingDropdownItems.vue']
 
 export default defineConfig({
-  entry: 'src/index.ts',
+  // The copied Vue components import these modules directly, so each keeps its exports.
+  entry: ['src/*.ts'],
   dts: true,
   platform: 'neutral',
   unbundle: true,

@@ -1,26 +1,35 @@
 # @kirby-tools/licensing
 
-Internal shared library for managing licensing and activation of commercial Kirby Tools plugins within the Kirby Panel.
+Internal shared library for the license buttons of commercial Kirby Tools plugins within the Kirby Panel.
 
 ## Overview
 
-This package provides a unified licensing system for all commercial Kirby Tools plugins, handling:
+Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation itself belongs to [`johannschopplich/kirby-tools-licensing`](https://github.com/kirby-tools/licensing-backend): its PHP dialog takes the email and license key, and its translations hold every string the buttons show. This package provides:
 
-- **License activation**: Dialogs for entering email and license key
-- **License status**: Reading whether a license is active, inactive, invalid, incompatible, or upgradeable
-- **UI components**: Pre-built Vue components for license buttons and dropdown items
-- **Multi-language support**: Translations for English, German, Spanish, French, Italian, and Dutch
+- **UI components**: `LicensingButtonGroup` and `LicensingDropdownItems`, which show the buttons a license status calls for and open the backend's activation dialog
+- **Integrity check**: `useLicense().assertActivationIntegrity()` reports buttons that are hidden or shrunk away
+- **Backend strings**: `useLicense().backendT()` reads the backend's `kirby-tools.license.*` strings with English fallbacks
 
 ## Usage
 
-```ts
-import { useLicense } from '@kirby-tools/licensing'
+```vue
+<script setup lang="ts">
+import type { LicenseStatus } from '@kirby-tools/licensing'
+import { LicensingButtonGroup } from '@kirby-tools/licensing/components'
 
-const { openLicenseDialog, assertActivationIntegrity } = useLicense({
-  label: 'Plugin Name',
-  apiNamespace: 'plugin-namespace'
-})
+defineProps<{ licenseStatus: LicenseStatus }>()
+</script>
+
+<template>
+  <LicensingButtonGroup
+    dialog="johannschopplich-kirby-copilot/activate"
+    :license-status="licenseStatus"
+    pricing-url="https://kirby.tools/copilot/buy"
+  />
+</template>
 ```
+
+The buttons read `licenseStatus` on every render. After a successful activation, the backend dialog reloads the current view, which hands a field its new status. A component that outlives the reload listens for `kirby-tools.license.activate.{pluginId}` on `panel.events`.
 
 ## License
 

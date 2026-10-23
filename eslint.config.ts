@@ -8,6 +8,5 @@ export default antfu({
         styles: false,
       },
     },
-    vueVersion: 2,
   },
 })

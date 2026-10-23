@@ -1,2 +1,2 @@
 export * from './license'
-export type { LicenseKey, LicenseStatus } from './types'
+export type { LicenseStatus } from './types'

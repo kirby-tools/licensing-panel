@@ -1,36 +1,19 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import type { LicenseStatus } from '../types'
-import { onMounted, ref } from 'kirbyuse'
+import { onMounted, useTemplateRef } from 'vue'
 import { useLicense } from '../license'
-import { t } from '../utils'
 
-const props = defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
-  apiNamespace: {
-    type: String,
-    required: true,
-  },
-  licenseStatus: {
-    type: String as PropType<LicenseStatus>,
-    required: true,
-  },
-  pricingUrl: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps<{
+  /** The `{vendor}-{package}/activate` dialog the licensing backend registers */
+  dialog: string
+  licenseStatus: LicenseStatus
+  pricingUrl: string
+}>()
 
-const { openLicenseDialog, assertActivationIntegrity, backendT } = useLicense({
-  label: props.label,
-  apiNamespace: props.apiNamespace,
-})
+const { assertActivationIntegrity, backendT } = useLicense()
 
-const currentLicenseStatus = ref(props.licenseStatus)
-const licenseButtonGroup = ref<ComponentPublicInstance | undefined>()
+const licenseButtonGroup = useTemplateRef<ComponentPublicInstance>('licenseButtonGroup')
 
 onMounted(() => {
   assertActivationIntegrity({
@@ -38,30 +21,26 @@ onMounted(() => {
     licenseStatus: props.licenseStatus,
   })
 })
-
-async function handleActivation() {
-  await openLicenseDialog()
-}
 </script>
 
 <template>
   <k-button-group
-    v-if="currentLicenseStatus !== 'active'"
+    v-if="licenseStatus !== 'active'"
     ref="licenseButtonGroup"
     layout="collapsed"
   >
     <!-- Mirrors the System view: an invalid key gets re-entered, an incompatible one upgraded -->
     <k-button
-      v-if="currentLicenseStatus === 'invalid'"
+      v-if="licenseStatus === 'invalid'"
       theme="negative"
       variant="filled"
       size="xs"
       icon="alert"
+      :dialog="dialog"
       :text="backendT('status.invalid')"
-      @click="handleActivation()"
     />
     <k-button
-      v-else-if="currentLicenseStatus === 'incompatible'"
+      v-else-if="licenseStatus === 'incompatible'"
       theme="negative"
       variant="filled"
       size="xs"
@@ -76,17 +55,17 @@ async function handleActivation() {
         theme="love"
         variant="filled"
         size="xs"
-        :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
+        :link="licenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
         target="_blank"
-        :text="currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy')"
+        :text="licenseStatus === 'upgradeable' ? backendT('button.upgrade') : backendT('button.buy')"
       />
       <k-button
         theme="love"
         variant="filled"
         size="xs"
         icon="key"
-        :text="t('activate')"
-        @click="handleActivation()"
+        :dialog="dialog"
+        :text="backendT('button.activate')"
       />
     </template>
   </k-button-group>

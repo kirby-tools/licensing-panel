@@ -1,69 +1,11 @@
-import type { ComponentPublicInstance } from 'vue'
-import type { LicenseStatus, MaybeRef } from './types'
-import { unref, useDialog, usePanel } from 'kirbyuse'
+import type { ComponentPublicInstance, MaybeRef } from 'vue'
+import type { LicenseStatus } from './types'
+import { usePanel } from 'kirbyuse'
+import { unref } from 'vue'
 import { BACKEND_MESSAGES, INTEGRITY_ERROR } from './constants'
-import { t } from './utils'
 
-export interface LicenseOptions {
-  label: string
-  apiNamespace: string
-}
-
-export function useLicense(licenseOptions: LicenseOptions) {
+export function useLicense() {
   const panel = usePanel()
-  const { openFieldsDialog } = useDialog()
-
-  const openLicenseDialog = async () => {
-    let isSubmitting = false
-
-    await openFieldsDialog({
-      fields: {
-        info: {
-          type: 'info',
-          text: panel.t('kirby-tools.license.activate.info'),
-        },
-        email: {
-          label: panel.t('kirby-tools.license.activate.email'),
-          type: 'email',
-          required: true,
-        },
-        licenseKey: {
-          label: panel.t('kirby-tools.license.activate.licenseKey'),
-          type: 'text',
-          required: true,
-          help: panel.t('kirby-tools.license.activate.licenseKey.help'),
-        },
-      },
-      submitButton: {
-        icon: 'check',
-        theme: 'love',
-        text: panel.t('kirby-tools.license.activate.submit'),
-      },
-      onSubmit: async (value) => {
-        if (isSubmitting)
-          return false
-
-        isSubmitting = true
-
-        const isLicenseActive = await activateLicense(value, licenseOptions)
-
-        if (!isLicenseActive) {
-          isSubmitting = false
-          return false
-        }
-
-        panel.notification.success(t('notification.success'))
-        await new Promise(resolve => setTimeout(resolve, 750))
-
-        // Force a reload to refresh the plugin's cached context.
-        window.location.reload()
-
-        // Return a never-resolving promise to keep the dialog open
-        // until the page reload completes.
-        return new Promise(() => {})
-      },
-    })
-  }
 
   const assertActivationIntegrity = ({ component, licenseStatus }: {
     component: MaybeRef<ComponentPublicInstance | null | undefined>
@@ -90,7 +32,7 @@ export function useLicense(licenseOptions: LicenseOptions) {
       return
     }
 
-    // The position is no signal: a section below the fold mounts off-screen.
+    // The position is no signal: a field below the fold mounts off-screen.
     const rect = element.getBoundingClientRect()
     if (rect.width === 0 || rect.height === 0) {
       panel.notification.error(INTEGRITY_ERROR)
@@ -103,32 +45,6 @@ export function useLicense(licenseOptions: LicenseOptions) {
 
   return {
     assertActivationIntegrity,
-    openLicenseDialog,
     backendT,
-  }
-}
-
-async function activateLicense(event: Record<string, any>, licenseOptions: LicenseOptions) {
-  const panel = usePanel()
-  const { email, licenseKey } = event
-
-  if (!email || !licenseKey)
-    return false
-
-  try {
-    const response = await panel.api.post(`${licenseOptions.apiNamespace}/activate`, {
-      email,
-      licenseKey,
-    })
-
-    if (response?.status !== 'ok') {
-      throw new Error('Failed to activate license key')
-    }
-
-    return true
-  }
-  catch (error) {
-    panel.notification.error((error as Error).message)
-    return false
   }
 }

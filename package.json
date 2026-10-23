@@ -37,18 +37,17 @@
     "release": "bumpp"
   },
   "peerDependencies": {
-    "kirbyuse": "*"
-  },
-  "dependencies": {
-    "vue": "^2.7.16"
+    "kirbyuse": "^2.0.0-beta.3",
+    "vue": "^3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.5.1",
     "@types/node": "^26.6.4",
     "bumpp": "^12.3.0",
     "eslint": "^10.12.0",
-    "kirbyuse": "^1.4.1",
+    "kirbyuse": "^2.0.0-beta.3",
     "tsdown": "^0.23.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vue": "^3.5.44"
   }
 }

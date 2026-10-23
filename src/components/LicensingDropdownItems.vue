@@ -1,53 +1,29 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
 import type { LicenseStatus } from '../types'
-import { ref } from 'kirbyuse'
 import { useLicense } from '../license'
-import { t } from '../utils'
 
-const props = defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
-  apiNamespace: {
-    type: String,
-    required: true,
-  },
-  licenseStatus: {
-    type: String as PropType<LicenseStatus>,
-    required: true,
-  },
-  pricingUrl: {
-    type: String,
-    required: true,
-  },
-})
+defineProps<{
+  /** The `{vendor}-{package}/activate` dialog the licensing backend registers */
+  dialog: string
+  licenseStatus: LicenseStatus
+  pricingUrl: string
+}>()
 
-const { openLicenseDialog, backendT } = useLicense({
-  label: props.label,
-  apiNamespace: props.apiNamespace,
-})
-
-const currentLicenseStatus = ref(props.licenseStatus)
-
-async function handleActivation() {
-  await openLicenseDialog()
-}
+const { backendT } = useLicense()
 </script>
 
 <template>
-  <div v-if="currentLicenseStatus !== 'active'">
+  <div v-if="licenseStatus !== 'active'">
     <!-- Mirrors the System view: an invalid key gets re-entered, an incompatible one upgraded -->
     <k-dropdown-item
-      v-if="currentLicenseStatus === 'invalid'"
+      v-if="licenseStatus === 'invalid'"
       icon="alert"
-      @click="handleActivation()"
+      :dialog="dialog"
     >
       {{ backendT('status.invalid') }}
     </k-dropdown-item>
     <k-dropdown-item
-      v-else-if="currentLicenseStatus === 'incompatible'"
+      v-else-if="licenseStatus === 'incompatible'"
       icon="alert"
       link="https://hub.kirby.tools"
       target="_blank"
@@ -57,16 +33,16 @@ async function handleActivation() {
     <template v-else>
       <k-dropdown-item
         icon="cart"
-        :link="currentLicenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
+        :link="licenseStatus === 'upgradeable' ? 'https://hub.kirby.tools' : pricingUrl"
         target="_blank"
       >
-        {{ currentLicenseStatus === 'upgradeable' ? t('upgrade') : t('buy') }}
+        {{ licenseStatus === 'upgradeable' ? backendT('button.upgrade') : backendT('button.buy') }}
       </k-dropdown-item>
       <k-dropdown-item
         icon="key"
-        @click="handleActivation()"
+        :dialog="dialog"
       >
-        {{ t('activate') }}
+        {{ backendT('button.activate') }}
       </k-dropdown-item>
     </template>
   </div>

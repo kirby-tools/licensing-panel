@@ -17,12 +17,13 @@ Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation 
 import type { LicenseStatus } from '@kirby-tools/licensing'
 import { LicensingButtonGroup } from '@kirby-tools/licensing/components'
 
-defineProps<{ licenseStatus: LicenseStatus }>()
+// Both come from the field's PHP class, see the licensing backend's README
+defineProps<{ licenseDialog: string, licenseStatus: LicenseStatus }>()
 </script>
 
 <template>
   <LicensingButtonGroup
-    dialog="johannschopplich-kirby-copilot/activate"
+    :dialog="licenseDialog"
     :license-status="licenseStatus"
     pricing-url="https://kirby.tools/copilot/buy"
   />

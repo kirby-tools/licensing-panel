@@ -3,7 +3,7 @@ import type { LicenseStatus } from '../types'
 import { useLicense } from '../license'
 
 defineProps<{
-  /** The `{vendor}-{package}/activate` dialog the licensing backend registers */
+  /** The `{vendor}-{package}/activate` dialog the licensing backend registers. */
   dialog: string
   licenseStatus: LicenseStatus
   pricingUrl: string

@@ -5,7 +5,7 @@ import { onMounted, useTemplateRef } from 'vue'
 import { useLicense } from '../license'
 
 const props = defineProps<{
-  /** The `{vendor}-{package}/activate` dialog the licensing backend registers */
+  /** The `{vendor}-{package}/activate` dialog the licensing backend registers. */
   dialog: string
   licenseStatus: LicenseStatus
   pricingUrl: string

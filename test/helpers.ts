@@ -4,7 +4,7 @@ import { defineComponent, h } from 'vue'
 
 export function stubPanel() {
   const panel = {
-    // Answers the fallback, like a Panel without the backend's strings
+    // Answers the fallback, like a Panel without the backend's strings.
     t: (key: string, _data?: Record<string, unknown>, fallback?: string) => fallback ?? key,
     notification: { error: vi.fn() },
   }

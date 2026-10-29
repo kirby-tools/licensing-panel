@@ -18,7 +18,7 @@ export function createPluginContext<T extends PluginContext>({ route, pluginId }
     const panel = usePanel()
 
     // Subscribes on the first call, since a plugin creates its context while `window.panel`
-    // is still Kirby's stub without `events`. An activation outdates the cached license status.
+    // is still Kirby's stub without `events`.
     if (!isSubscribed) {
       panel.events.on(`kirby-tools.license.activate.${pluginId}`, request.clear)
       isSubscribed = true

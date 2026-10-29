@@ -3,9 +3,20 @@ import { vi } from 'vitest'
 import { defineComponent, h } from 'vue'
 
 export function stubPanel() {
+  const listeners = new Map<string, Set<(...args: any[]) => void>>()
+
   const panel = {
     // Answers the fallback, like a Panel without the backend's strings.
     t: (key: string, _data?: Record<string, unknown>, fallback?: string) => fallback ?? key,
+    api: { get: vi.fn() },
+    events: {
+      on: (event: string, listener: (...args: any[]) => void) => {
+        listeners.set(event, (listeners.get(event) ?? new Set()).add(listener))
+      },
+      emit: (event: string, ...args: unknown[]) => {
+        listeners.get(event)?.forEach(listener => listener(...args))
+      },
+    },
     notification: { error: vi.fn() },
   }
 

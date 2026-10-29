@@ -9,9 +9,10 @@ Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation 
 - **UI components**: `LicensingButtonGroup` and `LicensingDropdownItems`, which show the buttons a license status calls for and open the backend's activation dialog
 - **Integrity check**: `useLicense().assertActivationIntegrity()` reports buttons that are hidden or shrunk away
 - **Backend strings**: `useLicense().backendT()` reads the backend's `kirby-tools.license.*` strings with English fallbacks
-- **Plugin context**: `createPluginContext()` fetches a plugin's context route once, registers the `assets` it returns, and fetches again after an activation
+- **Plugin context**: `createPluginContext()` caches a plugin's context route and registers its `assets`
 - **Dialog license status**: `useLicenseStatus()` reads the license status from the plugin context for a dialog's buttons
 - **License toast**: `showLicenseToastOnce()` asks an unlicensed user once per session to activate a license
+- **License props**: `licenseProps` declares the `licenseStatus` and `licenseDialog` props
 
 ## Usage
 
@@ -19,11 +20,11 @@ Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation 
 
 ```vue
 <script setup lang="ts">
-import type { LicenseStatus } from '@kirby-tools/licensing'
+import { licenseProps } from '@kirby-tools/licensing'
 import { LicensingButtonGroup } from '@kirby-tools/licensing/components'
 
-// Both come from the field's PHP class, see the licensing backend's README
-defineProps<{ licenseDialog: string, licenseStatus: LicenseStatus }>()
+// `licenseStatus` and `licenseDialog` come from the field's or view's PHP class; see the licensing backend's README.
+defineProps(licenseProps)
 </script>
 
 <template>
@@ -35,7 +36,7 @@ defineProps<{ licenseDialog: string, licenseStatus: LicenseStatus }>()
 </template>
 ```
 
-The buttons read `licenseStatus` on every render. After a successful activation, the backend dialog reloads the current view, which hands a field its new status. A component that outlives the reload listens for `kirby-tools.license.activate.{pluginId}` on `panel.events`.
+After a successful activation, the backend dialog reloads the current view, which hands a field or view its new status.
 
 ### Plugin Context
 

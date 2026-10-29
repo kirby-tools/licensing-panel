@@ -11,6 +11,7 @@ Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation 
 - **Backend strings**: `useLicense().backendT()` reads the backend's `kirby-tools.license.*` strings with English fallbacks
 - **Plugin context**: `createPluginContext()` fetches a plugin's context route once, registers the `assets` it returns, and fetches again after an activation
 - **Dialog license status**: `useLicenseStatus()` reads the license status from the plugin context for a dialog's buttons
+- **License toast**: `showLicenseToastOnce()` asks an unlicensed user once per session to activate a license
 
 ## Usage
 
@@ -36,21 +37,6 @@ defineProps<{ licenseDialog: string, licenseStatus: LicenseStatus }>()
 
 The buttons read `licenseStatus` on every render. After a successful activation, the backend dialog reloads the current view, which hands a field its new status. A component that outlives the reload listens for `kirby-tools.license.activate.{pluginId}` on `panel.events`.
 
-### Dialogs
-
-A dialog has no field props to read the status from. Kirby reopens it from its history after the activation dialog, with the status it had before, so `useLicenseStatus()` switches its status to `active` on the activation event:
-
-```ts
-import { useLicenseStatus } from '@kirby-tools/licensing'
-
-const { licenseStatus, licenseDialog } = useLicenseStatus({
-  pluginId: 'copilot',
-  resolveContext: usePluginContext,
-})
-```
-
-Both refs start out `undefined`, so the template guards the buttons with `v-if="licenseStatus && licenseDialog"`.
-
 ### Plugin Context
 
 ```ts
@@ -70,6 +56,37 @@ const { config, licenseStatus } = await usePluginContext()
 ```
 
 Every call shares one request until an activation clears it, and a failed one is retried on the next call. The context route answers with the license status and the activation dialog; `assets`, if present, are registered for kirbyuse's `resolvePluginAsset()` and `loadPluginModule()`.
+
+### Dialogs
+
+A dialog has no field props to read the status from. Kirby reopens it from its history after the activation dialog, with the status it had before, so `useLicenseStatus()` switches its status to `active` on the activation event:
+
+```ts
+import { useLicenseStatus } from '@kirby-tools/licensing'
+
+const { licenseStatus, licenseDialog } = useLicenseStatus({
+  pluginId: 'copilot',
+  resolveContext: usePluginContext,
+})
+```
+
+Both refs start out `undefined`, so the template guards the buttons with `v-if="licenseStatus && licenseDialog"`.
+
+### License Toast
+
+```ts
+import { showLicenseToastOnce } from '@kirby-tools/licensing'
+import { usePanel } from 'kirbyuse'
+
+showLicenseToastOnce({
+  storageKey: 'kirby$copilot$acceptedSuggestionCount',
+  threshold: 3,
+  resolveContext: usePluginContext,
+  message: usePanel().t('johannschopplich.copilot.licenseToast'),
+})
+```
+
+Each call counts up under `storageKey` in `sessionStorage`. The call that reaches `threshold` shows the toast if the license is `inactive` or `invalid`, and later calls in the session do nothing. On a local development host, calls neither count nor show anything.
 
 ## License
 

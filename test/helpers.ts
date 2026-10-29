@@ -17,7 +17,7 @@ export function stubPanel() {
         listeners.get(event)?.forEach(listener => listener(...args))
       },
     },
-    notification: { error: vi.fn() },
+    notification: { error: vi.fn(), info: vi.fn() },
   }
 
   vi.stubGlobal('panel', panel)

@@ -10,6 +10,7 @@ Version 1 targets Kirby 6 and Vue 3; Kirby 5 plugins stay on `^0.9`. Activation 
 - **Integrity check**: `useLicense().assertActivationIntegrity()` reports buttons that are hidden or shrunk away
 - **Backend strings**: `useLicense().backendT()` reads the backend's `kirby-tools.license.*` strings with English fallbacks
 - **Plugin context**: `createPluginContext()` fetches a plugin's context route once, registers the `assets` it returns, and fetches again after an activation
+- **Dialog license status**: `useLicenseStatus()` reads the license status from the plugin context for a dialog's buttons
 
 ## Usage
 
@@ -34,6 +35,21 @@ defineProps<{ licenseDialog: string, licenseStatus: LicenseStatus }>()
 ```
 
 The buttons read `licenseStatus` on every render. After a successful activation, the backend dialog reloads the current view, which hands a field its new status. A component that outlives the reload listens for `kirby-tools.license.activate.{pluginId}` on `panel.events`.
+
+### Dialogs
+
+A dialog has no field props to read the status from. Kirby reopens it from its history after the activation dialog, with the status it had before, so `useLicenseStatus()` switches its status to `active` on the activation event:
+
+```ts
+import { useLicenseStatus } from '@kirby-tools/licensing'
+
+const { licenseStatus, licenseDialog } = useLicenseStatus({
+  pluginId: 'copilot',
+  resolveContext: usePluginContext,
+})
+```
+
+Both refs start out `undefined`, so the template guards the buttons with `v-if="licenseStatus && licenseDialog"`.
 
 ### Plugin Context
 

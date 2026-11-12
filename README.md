@@ -89,6 +89,13 @@ showLicenseToastOnce({
 
 Each call counts up under `storageKey` in `sessionStorage`. The call that reaches `threshold` shows the toast if the license is `inactive` or `invalid`, and later calls in the session do nothing. On a local development host, calls neither count nor show anything.
 
+## Used By
+
+- [kirby-copilot](https://kirby.tools/copilot)
+- [kirby-content-translator](https://kirby.tools/content-translator)
+- [kirby-live-preview](https://kirby.tools/live-preview)
+- [kirby-seo-audit](https://kirby.tools/seo-audit)
+
 ## License
 
 [AGPL](./LICENSE) License © 2024-PRESENT [Johann Schopplich](https://github.com/johannschopplich)

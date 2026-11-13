@@ -60,7 +60,7 @@ Every call shares one request until an activation clears it, and a failed one is
 
 ### Dialogs
 
-A dialog has no field props to read the status from. Kirby reopens it from its history after the activation dialog, with the status it had before, so `useLicenseStatus()` switches its status to `active` on the activation event:
+A dialog has no field props to read the status from. `useLicenseStatus()` reads it from the plugin context and switches it to `active` on the activation event:
 
 ```ts
 import { useLicenseStatus } from '@kirby-tools/licensing'

@@ -25,7 +25,7 @@ export function createPluginContext<T extends PluginContext>({ route, pluginId }
     }
 
     // Silent, so the request doesn't show the Panel's loading indicator.
-    const context = await panel.api.get<T>(route, undefined, undefined, true)
+    const context = await panel.api.get<T>(route, undefined, { silent: true })
 
     if (context.assets)
       registerPluginAssets(context.assets)

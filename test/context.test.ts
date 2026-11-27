@@ -30,7 +30,9 @@ describe('createPluginContext', () => {
 
   it('registers the assets of the response', async () => {
     const panel = stubPanel()
-    panel.api.get.mockResolvedValue(contextResponse('active', [{ filename: 'pdf.js', url: '/media/pdf.js' }]))
+    panel.api.get.mockResolvedValue(contextResponse('active', [
+      { filename: 'pdf.js', url: '/media/pdf.js' },
+    ]))
 
     await createPluginContext({ route: ROUTE, pluginId: 'copilot' })()
 

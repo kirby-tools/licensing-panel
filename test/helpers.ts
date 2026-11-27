@@ -8,7 +8,9 @@ export function stubPanel() {
   const panel = {
     // Answers the fallback, like a Panel without the backend's strings.
     t: (key: string, _data?: Record<string, unknown>, fallback?: string) => fallback ?? key,
-    api: { get: vi.fn() },
+    api: {
+      get: vi.fn(),
+    },
     events: {
       on: (event: string, listener: (...args: any[]) => void) => {
         listeners.set(event, (listeners.get(event) ?? new Set()).add(listener))
@@ -17,7 +19,10 @@ export function stubPanel() {
         listeners.get(event)?.forEach(listener => listener(...args))
       },
     },
-    notification: { error: vi.fn(), info: vi.fn() },
+    notification: {
+      error: vi.fn(),
+      info: vi.fn(),
+    },
   }
 
   vi.stubGlobal('panel', panel)

@@ -39,7 +39,10 @@ describe('showLicenseToastOnce', () => {
 
   it('shows one toast for concurrent calls at the threshold', async () => {
     await toastAfterTwoCalls('inactive')
-    await Promise.all([toastAfterTwoCalls('inactive'), toastAfterTwoCalls('inactive')])
+    await Promise.all([
+      toastAfterTwoCalls('inactive'),
+      toastAfterTwoCalls('inactive'),
+    ])
 
     expect(panel.notification.info).toHaveBeenCalledTimes(1)
   })

@@ -22,7 +22,10 @@ describe('assertActivationIntegrity', () => {
   it('accepts visible buttons', () => {
     const { assertActivationIntegrity } = useLicense()
 
-    assertActivationIntegrity({ component: componentWith(document.createElement('div')), licenseStatus: 'inactive' })
+    assertActivationIntegrity({
+      component: componentWith(document.createElement('div')),
+      licenseStatus: 'inactive',
+    })
 
     expect(panel.notification.error).not.toHaveBeenCalled()
   })
@@ -32,7 +35,10 @@ describe('assertActivationIntegrity', () => {
     const element = document.createElement('div')
     element.style.display = 'none'
 
-    assertActivationIntegrity({ component: componentWith(element), licenseStatus: 'inactive' })
+    assertActivationIntegrity({
+      component: componentWith(element),
+      licenseStatus: 'inactive',
+    })
 
     expect(panel.notification.error).toHaveBeenCalledWith(INTEGRITY_ERROR)
   })

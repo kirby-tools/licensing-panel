@@ -9,7 +9,10 @@ describe('useLicenseStatus', () => {
   it('reads licenseStatus and licenseDialog from the context', async () => {
     stubPanel()
     const context = Promise.resolve<PluginContext>({ licenseStatus: 'inactive', licenseDialog: LICENSE_DIALOG })
-    const { licenseStatus, licenseDialog } = useLicenseStatus({ pluginId: 'seo-audit', resolveContext: () => context })
+    const { licenseStatus, licenseDialog } = useLicenseStatus({
+      pluginId: 'seo-audit',
+      resolveContext: () => context,
+    })
 
     await context
 
@@ -20,7 +23,10 @@ describe('useLicenseStatus', () => {
   it('keeps licenseStatus active when an inactive context resolves after kirby-tools.license.activate.seo-audit', async () => {
     const panel = stubPanel()
     const { promise, resolve } = Promise.withResolvers<PluginContext>()
-    const { licenseStatus } = useLicenseStatus({ pluginId: 'seo-audit', resolveContext: () => promise })
+    const { licenseStatus } = useLicenseStatus({
+      pluginId: 'seo-audit',
+      resolveContext: () => promise,
+    })
 
     panel.events.emit('kirby-tools.license.activate.seo-audit')
     resolve({ licenseStatus: 'inactive', licenseDialog: LICENSE_DIALOG })

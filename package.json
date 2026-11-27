@@ -2,7 +2,7 @@
   "name": "@kirby-tools/licensing",
   "type": "module",
   "version": "1.1.0",
-  "packageManager": "pnpm@12.16.1",
+  "packageManager": "pnpm@12.23.0",
   "description": "License system for Kirby Tools plugins within the Kirby Panel",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "AGPL-3.0-or-later",
@@ -42,18 +42,18 @@
     "vue": "^3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.5.1",
-    "@types/node": "^26.6.4",
-    "@vitejs/plugin-vue": "^6.0.10",
-    "@vue/test-utils": "^2.5.1",
+    "@antfu/eslint-config": "^10.0.0",
+    "@types/node": "^26.6.11",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "@vue/test-utils": "^2.6.0",
     "bumpp": "^12.3.0",
-    "eslint": "^10.12.0",
+    "eslint": "^10.15.0",
     "happy-dom": "^21.0.4",
     "kirbyuse": "^2.0.0",
-    "tsdown": "^0.23.0",
+    "tsdown": "^0.23.7",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.5",
-    "vue": "^3.5.44",
-    "vue-tsc": "^3.3.13"
+    "vitest": "^5.1.2",
+    "vue": "^3.5.46",
+    "vue-tsc": "^3.3.14"
   }
 }
